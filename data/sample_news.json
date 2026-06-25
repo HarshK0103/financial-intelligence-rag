@@ -1,0 +1,110 @@
+[
+  {
+    "doc_id": "news_001",
+    "content": "Apple Inc. shares surged to an all-time high after the company unveiled Apple Intelligence, a comprehensive AI platform integrated across iOS 18, iPadOS 18, and macOS Sequoia. The announcement, made at WWDC 2024, included a landmark partnership with OpenAI to integrate ChatGPT into Siri. Analysts estimate the AI features could drive a super-cycle of iPhone upgrades, with Wedbush projecting an incremental $15 billion in Services revenue by fiscal 2026.",
+    "source": "news",
+    "ticker": "AAPL",
+    "timestamp": 1717240200.0,
+    "temperature": "hot",
+    "metadata": {"headline": "Apple Unveils Apple Intelligence AI Platform, Shares Hit Record High", "source_name": "Reuters"}
+  },
+  {
+    "doc_id": "news_002",
+    "content": "NVIDIA Corporation has overtaken Apple to become the world's second-most valuable company with a market capitalization exceeding $3.01 trillion. The chipmaker's relentless rally — up over 150% year-to-date — is fueled by insatiable demand for its AI training and inference GPUs from hyperscale cloud providers. CEO Jensen Huang confirmed that Blackwell GPU production is on track, with Microsoft, Google, and Amazon collectively ordering over $50 billion worth of next-gen hardware.",
+    "source": "news",
+    "ticker": "NVDA",
+    "timestamp": 1717240800.0,
+    "temperature": "hot",
+    "metadata": {"headline": "NVIDIA Surpasses Apple as World's Second Most Valuable Company", "source_name": "Bloomberg"}
+  },
+  {
+    "doc_id": "news_003",
+    "content": "Tesla shares jumped 8% in after-hours trading following Elon Musk's announcement that the company's Robotaxi event has been rescheduled from August to October 10, 2024, and will include a live demonstration of fully autonomous rides. Musk stated the delay allows Tesla to increase the Robotaxi fleet by 50%, aiming for 'hundreds of vehicles' at the event. Morgan Stanley raised its price target to $310 from $275, citing the autonomous driving opportunity as a potential $500 billion revenue stream by 2030.",
+    "source": "news",
+    "ticker": "TSLA",
+    "timestamp": 1717241400.0,
+    "temperature": "hot",
+    "metadata": {"headline": "Tesla Robotaxi Event Rescheduled; Shares Surge 8% After Hours", "source_name": "CNBC"}
+  },
+  {
+    "doc_id": "news_004",
+    "content": "Microsoft reported that Azure revenue growth accelerated to 31% in the latest quarter, exceeding Wall Street estimates of 28.6%. CEO Satya Nadella highlighted that AI services now represent over 7 percentage points of Azure growth, up from 6 points last quarter. The company's $13 billion investment in OpenAI is beginning to show material returns, with Copilot for Microsoft 365 now deployed across 400,000 enterprise organizations. Shares rose 4.2% in extended trading.",
+    "source": "news",
+    "ticker": "MSFT",
+    "timestamp": 1717241100.0,
+    "temperature": "hot",
+    "metadata": {"headline": "Microsoft Azure Growth Accelerates to 31%, Beating Estimates", "source_name": "Financial Times"}
+  },
+  {
+    "doc_id": "news_005",
+    "content": "Alphabet announced a breakthrough in quantum computing, with its Willow quantum processor achieving 'quantum supremacy' on a commercially relevant optimization problem for the first time. The company also revealed that Gemini 2.0 Ultra will launch in August with native multimodal reasoning capabilities. Google Cloud revenue grew 29% to $10.35 billion, narrowing the gap with AWS and Azure. The stock rose 5.1% to close at a new 52-week high of $178.35.",
+    "source": "news",
+    "ticker": "GOOGL",
+    "timestamp": 1717240500.0,
+    "temperature": "hot",
+    "metadata": {"headline": "Alphabet Achieves Quantum Computing Milestone; Cloud Revenue Surges 29%", "source_name": "Wall Street Journal"}
+  },
+  {
+    "doc_id": "news_006",
+    "content": "The Federal Reserve held interest rates steady at 5.25-5.50% as expected, but Chair Jerome Powell signaled that the committee is 'gaining greater confidence' that inflation is moving toward the 2% target. The updated dot plot shows one rate cut projected for 2024, down from three in March. Treasury yields fell 8 basis points to 4.22% on the 10-year note. Bank stocks rallied broadly, with JPMorgan Chase rising 2.8% and Goldman Sachs gaining 3.1% on expectations of a softer landing.",
+    "source": "news",
+    "ticker": "JPM",
+    "timestamp": 1717239600.0,
+    "temperature": "hot",
+    "metadata": {"headline": "Fed Holds Rates Steady, Signals One Cut in 2024; Bank Stocks Rally", "source_name": "Reuters"}
+  },
+  {
+    "doc_id": "news_007",
+    "content": "Bitcoin surged past $71,000 for the first time since March, driven by record inflows into spot Bitcoin ETFs totaling $886 million in a single day. BlackRock's iShares Bitcoin Trust (IBIT) alone attracted $528 million, making it the fastest ETF in history to reach $20 billion in assets. Analysts attribute the rally to institutional FOMO and the upcoming Bitcoin halving supply shock. Ethereum also rallied 6.2% to $3,842, bolstered by expectations of an imminent spot ETH ETF approval.",
+    "source": "news",
+    "ticker": "BTC",
+    "timestamp": 1717242000.0,
+    "temperature": "hot",
+    "metadata": {"headline": "Bitcoin Breaks $71K on Record ETF Inflows; Ethereum Surges 6%", "source_name": "CoinDesk"}
+  },
+  {
+    "doc_id": "news_008",
+    "content": "Amazon Web Services announced a $9 billion infrastructure investment in Singapore, its largest-ever commitment in Southeast Asia, to meet surging demand for AI cloud computing in the region. Separately, Amazon's advertising business grew 24% to $12.77 billion in the latest quarter, emerging as the company's highest-margin segment. Shares gained 3.4% in regular trading. Analysts at Goldman Sachs raised their price target to $220 from $200, maintaining a Buy rating.",
+    "source": "news",
+    "ticker": "AMZN",
+    "timestamp": 1717240000.0,
+    "temperature": "hot",
+    "metadata": {"headline": "Amazon Announces $9B Singapore Data Center Investment; Ad Revenue Surges", "source_name": "Bloomberg"}
+  },
+  {
+    "doc_id": "news_009",
+    "content": "Meta Platforms reported stronger-than-expected Q2 results with revenue of $39.07 billion, up 22% year-over-year. The company's AI-powered recommendation engine drove a 7% increase in time spent on Instagram Reels and a 9% increase on Facebook. Meta's Reality Labs division reported revenue of $353 million with losses narrowing to $3.85 billion from $4.49 billion. CEO Mark Zuckerberg announced plans to spend $37-40 billion on AI infrastructure in 2025, including building a 2GW data center campus.",
+    "source": "news",
+    "ticker": "META",
+    "timestamp": 1717241700.0,
+    "temperature": "hot",
+    "metadata": {"headline": "Meta Revenue Beats Estimates on AI-Driven Ad Growth; Plans $40B AI Spend", "source_name": "CNBC"}
+  },
+  {
+    "doc_id": "news_010",
+    "content": "The S&P 500 closed at a record 5,487.03, gaining 0.85% as breadth improved with 380 of the index's constituents advancing. The rally was broad-based for the first time in weeks, with the equal-weight S&P 500 outperforming the cap-weighted index. Technology led gains (+1.4%), followed by Financials (+1.2%) and Industrials (+0.9%). Market volatility dropped with the VIX falling to 12.1, its lowest level since November 2019. Year-to-date, the S&P 500 is up 14.2%.",
+    "source": "news",
+    "ticker": "SPY",
+    "timestamp": 1717239900.0,
+    "temperature": "hot",
+    "metadata": {"headline": "S&P 500 Hits Record High as Market Rally Broadens Beyond Big Tech", "source_name": "MarketWatch"}
+  },
+  {
+    "doc_id": "news_011",
+    "content": "The Nasdaq Composite surged 1.2% to close at 17,688, propelled by semiconductor stocks after TSMC reported June revenue growth of 33% year-over-year, confirming the AI spending boom remains intact. The Philadelphia Semiconductor Index (SOX) jumped 3.1%. Broadcom rose 5.2% ahead of its earnings report, while AMD gained 4.8% on reports of a major custom AI chip win with Microsoft. The Nasdaq QQQ ETF saw inflows of $2.1 billion, the largest single-day inflow since January.",
+    "source": "news",
+    "ticker": "QQQ",
+    "timestamp": 1717240100.0,
+    "temperature": "hot",
+    "metadata": {"headline": "Nasdaq Surges 1.2% as Semiconductor Stocks Lead AI-Fueled Rally", "source_name": "Financial Times"}
+  },
+  {
+    "doc_id": "news_012",
+    "content": "Goldman Sachs reported Q2 investment banking revenue of $1.73 billion, up 21% year-over-year, driven by a rebound in M&A advisory and debt underwriting. The firm's asset and wealth management division crossed $3 trillion in assets under supervision for the first time. CEO David Solomon said the IPO pipeline is the strongest since 2021, with over 50 companies preparing for listings in the second half of 2024. Net income was $3.04 billion, beating consensus by 12%.",
+    "source": "news",
+    "ticker": "GS",
+    "timestamp": 1717241500.0,
+    "temperature": "hot",
+    "metadata": {"headline": "Goldman Sachs IB Revenue Surges 21%; IPO Pipeline Strongest Since 2021", "source_name": "Wall Street Journal"}
+  }
+]

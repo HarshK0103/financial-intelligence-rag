@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Financial Intelligence RAG  — Dashboard</title>
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/static/index.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚡</text></svg>" />
+</head>
+<body>
+
+<!-- ── Connection Lost Banner ─────────────────────────────────── -->
+<div class="connection-lost" id="connectionBanner">
+  <span>⚠</span> Connection lost — retrying…
+</div>
+
+<div class="dashboard">
+
+  <!-- ════════════════════════════════════════════════════════════
+      HEADER
+      ════════════════════════════════════════════════════════════ -->
+  <header class="header">
+    <div class="header-brand">
+      <span class="header-icon">⚡</span>
+      <div>
+        <div class="header-title">Financial Intelligence RAG</div>
+        <div class="header-subtitle">Real-time Monitoring Dashboard</div>
+      </div>
+    </div>
+    <div class="header-status">
+      <div class="status-badge">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Connecting…</span>
+      </div>
+      <div class="uptime-display">
+        Uptime: <span id="uptimeValue">--:--:--</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════════════════════════════
+      TOP METRICS ROW
+      ════════════════════════════════════════════════════════════ -->
+  <div class="metrics-row">
+
+    <!-- Avg Latency -->
+    <div class="glass-card metric-card">
+      <div class="card-label">
+        <span class="label-dot" style="background: var(--indigo)"></span>
+        Avg Latency
+      </div>
+      <div class="ring-container">
+        <svg class="ring-svg" viewBox="0 0 80 80">
+          <circle class="ring-bg" cx="40" cy="40" r="33" />
+          <circle class="ring-progress" id="latencyRing" cx="40" cy="40" r="33" />
+        </svg>
+        <div class="ring-value">
+          <span id="avgLatencyValue">--</span><span class="unit">ms</span>
+        </div>
+      </div>
+      <div class="metric-sub" id="latencyStatus">Waiting for data</div>
+    </div>
+
+    <!-- Cache Hit Rate -->
+    <div class="glass-card metric-card">
+      <div class="card-label">
+        <span class="label-dot" style="background: var(--emerald)"></span>
+        Cache Hit Rate
+      </div>
+      <div class="ring-container">
+        <svg class="ring-svg" viewBox="0 0 80 80">
+          <circle class="ring-bg" cx="40" cy="40" r="33" />
+          <circle class="ring-progress" id="cacheRing" cx="40" cy="40" r="33" style="stroke: var(--emerald);" />
+        </svg>
+        <div class="ring-value">
+          <span id="cacheHitValue">--</span><span class="unit">%</span>
+        </div>
+      </div>
+      <div class="metric-sub" id="cacheStatus">Waiting for data</div>
+    </div>
+
+    <!-- Total Queries -->
+    <div class="glass-card metric-card">
+      <div class="card-label">
+        <span class="label-dot" style="background: var(--cyan)"></span>
+        Total Queries
+      </div>
+      <div class="metric-value pulse-on-update" id="totalQueries" style="margin-top: 18px;">--</div>
+      <div class="metric-sub" id="queriesPerSec">0 q/s</div>
+    </div>
+
+    <!-- Circuit Breaker -->
+    <div class="glass-card metric-card">
+      <div class="card-label">
+        <span class="label-dot" style="background: var(--amber)"></span>
+        Circuit Breaker
+      </div>
+      <div style="margin-top: 14px;">
+        <svg width="48" height="48" viewBox="0 0 48 48" id="circuitIcon" style="margin-bottom: 8px;">
+          <circle cx="24" cy="24" r="20" fill="none" stroke-width="2.5" stroke="var(--emerald)" opacity="0.25"/>
+          <circle cx="24" cy="24" r="10" fill="var(--emerald)" opacity="0.2"/>
+          <circle cx="24" cy="24" r="5" fill="var(--emerald)"/>
+        </svg>
+        <div class="circuit-badge closed" id="circuitBadge">
+          <span>●</span> <span id="circuitText">CLOSED</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+      MIDDLE SECTION — Latency Distribution & Cache Breakdown
+      ════════════════════════════════════════════════════════════ -->
+  <div class="section-grid">
+
+    <!-- Latency Distribution -->
+    <div class="glass-card">
+      <div class="section-title">Latency Distribution</div>
+      <div class="latency-chart" id="latencyChart">
+        <!-- SLA Line -->
+        <div class="sla-line" id="slaLine" style="bottom: 75%;">
+          <span class="sla-label">200ms SLA</span>
+        </div>
+
+        <div class="latency-bar-group">
+          <div class="latency-bar-wrapper">
+            <div class="latency-bar green" id="barP50" style="height: 0%;" data-value="--"></div>
+          </div>
+          <span class="bar-label">P50</span>
+        </div>
+        <div class="latency-bar-group">
+          <div class="latency-bar-wrapper">
+            <div class="latency-bar green" id="barP75" style="height: 0%;" data-value="--"></div>
+          </div>
+          <span class="bar-label">P75</span>
+        </div>
+        <div class="latency-bar-group">
+          <div class="latency-bar-wrapper">
+            <div class="latency-bar yellow" id="barP95" style="height: 0%;" data-value="--"></div>
+          </div>
+          <span class="bar-label">P95</span>
+        </div>
+        <div class="latency-bar-group">
+          <div class="latency-bar-wrapper">
+            <div class="latency-bar red" id="barP99" style="height: 0%;" data-value="--"></div>
+          </div>
+          <span class="bar-label">P99</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cache Layer Breakdown -->
+    <div class="glass-card">
+      <div class="section-title">Cache Layer Breakdown</div>
+      <div class="cache-breakdown" id="cacheBreakdown">
+        <div class="cache-row">
+          <span class="cache-layer-name">L1 Exact</span>
+          <div class="cache-bar-track">
+            <div class="cache-bar-fill l1" id="cacheBarL1" style="width: 0%;">
+              <span class="cache-bar-label" id="cacheLabelL1">0%</span>
+            </div>
+          </div>
+          <span class="cache-count" id="cacheCountL1">0</span>
+        </div>
+        <div class="cache-row">
+          <span class="cache-layer-name">L2 Semantic</span>
+          <div class="cache-bar-track">
+            <div class="cache-bar-fill l2" id="cacheBarL2" style="width: 0%;">
+              <span class="cache-bar-label" id="cacheLabelL2">0%</span>
+            </div>
+          </div>
+          <span class="cache-count" id="cacheCountL2">0</span>
+        </div>
+        <div class="cache-row">
+          <span class="cache-layer-name">L3 Ticker</span>
+          <div class="cache-bar-track">
+            <div class="cache-bar-fill l3" id="cacheBarL3" style="width: 0%;">
+              <span class="cache-bar-label" id="cacheLabelL3">0%</span>
+            </div>
+          </div>
+          <span class="cache-count" id="cacheCountL3">0</span>
+        </div>
+        <div class="cache-row">
+          <span class="cache-layer-name">Miss</span>
+          <div class="cache-bar-track">
+            <div class="cache-bar-fill miss" id="cacheBarMiss" style="width: 0%;">
+              <span class="cache-bar-label" id="cacheLabelMiss">0%</span>
+            </div>
+          </div>
+          <span class="cache-count" id="cacheCountMiss">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+      BOTTOM SECTION — Query Log & Hot Tickers
+      ════════════════════════════════════════════════════════════ -->
+  <div class="section-grid">
+
+    <!-- Live Query Log -->
+    <div class="glass-card">
+      <div class="section-title">Live Query Log</div>
+      <div class="query-log" id="queryLog">
+        <div class="log-empty">No queries recorded yet</div>
+      </div>
+    </div>
+
+    <!-- Hot Tickers Monitor -->
+    <div class="glass-card">
+      <div class="section-title">Hot Tickers Monitor</div>
+      <div class="ticker-grid" id="tickerGrid">
+        <div class="ticker-empty">No active tickers</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+      QUERY PANEL
+      ════════════════════════════════════════════════════════════ -->
+  <div class="glass-card query-panel">
+    <div class="section-title">Send Test Query</div>
+    <div class="query-input-row">
+      <input
+        type="text"
+        class="query-input"
+        id="queryInput"
+        placeholder="Ask something… e.g. What was AAPL revenue in Q3 2024?"
+        autocomplete="off"
+      />
+      <input
+        type="text"
+        class="query-tickers-input"
+        id="queryTickers"
+        placeholder="Tickers (AAPL, NVDA)"
+        autocomplete="off"
+      />
+      <button class="query-send-btn" id="querySendBtn" onclick="sendQuery()">
+        <span class="btn-text">Send Query</span>
+        <span class="spinner"></span>
+      </button>
+    </div>
+    <div class="query-response" id="queryResponse">
+      <div class="response-header">
+        <span class="response-label">Response</span>
+        <div class="response-stats" id="responseStats"></div>
+      </div>
+      <div class="response-answer" id="responseAnswer"></div>
+      <div class="response-sources" id="responseSources"></div>
+    </div>
+  </div>
+
+</div><!-- /.dashboard -->
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+  Financial Intelligence RAG — Dashboard Logic
+  Pure vanilla JS · Fetch API · Real-time polling
+   ═══════════════════════════════════════════════════════════════════ */
+
+(() => {
+  'use strict';
+
+  // ── Constants ────────────────────────────────────────────────────
+  const CIRCUMFERENCE = 2 * Math.PI * 33; // ~207.35 for ring charts
+  const MAX_LATENCY_SCALE = 400; // max ms for bar chart scaling
+  const SLA_MS = 200;
+  const MAX_LOG_ENTRIES = 20;
+  const HEALTH_INTERVAL = 2000;
+  const METRICS_INTERVAL = 2000;
+  const QUERIES_INTERVAL = 3000;
+
+  // ── State ────────────────────────────────────────────────────────
+  let prevTotalQueries = null;
+  let prevTotalQueriesTime = null;
+  let consecutiveFailures = 0;
+  let animationFrames = {};
+
+  // ── DOM References ───────────────────────────────────────────────
+  const $ = (id) => document.getElementById(id);
+
+  // ── Utility: Animated number counter ─────────────────────────────
+  function animateValue(el, start, end, duration, formatter) {
+    if (animationFrames[el.id]) cancelAnimationFrame(animationFrames[el.id]);
+    if (start === end || isNaN(end)) { el.textContent = formatter ? formatter(end) : end; return; }
+
+    const startTime = performance.now();
+    const diff = end - start;
+
+    function step(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = start + diff * eased;
+
+      el.textContent = formatter ? formatter(current) : Math.round(current);
+
+      if (progress < 1) {
+        animationFrames[el.id] = requestAnimationFrame(step);
+      }
+    }
+
+    animationFrames[el.id] = requestAnimationFrame(step);
+  }
+
+  // ── Utility: Format uptime ───────────────────────────────────────
+  function formatUptime(seconds) {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = Math.floor(seconds % 60);
+    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+
+  // ── Utility: Latency color class ─────────────────────────────────
+  function latencyClass(ms) {
+    if (ms < 100) return 'fast';
+    if (ms < 200) return 'medium';
+    return 'slow';
+  }
+
+  function latencyBarColor(ms) {
+    if (ms < 100) return 'green';
+    if (ms < 200) return 'yellow';
+    return 'red';
+  }
+
+  function latencyRingColor(ms) {
+    if (ms < 100) return 'var(--emerald)';
+    if (ms < 200) return 'var(--amber)';
+    return 'var(--rose)';
+  }
+
+  // ── Utility: Relative time ───────────────────────────────────────
+  function relativeTime(ts) {
+    const diff = (Date.now() / 1000) - ts;
+    if (diff < 60) return `${Math.floor(diff)}s ago`;
+    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+    return `${Math.floor(diff / 3600)}h ago`;
+  }
+
+  // ── Utility: Ticker freshness ────────────────────────────────────
+  function tickerFreshness(lastUpdate) {
+    if (!lastUpdate) return 'stale';
+    const age = Date.now() / 1000 - lastUpdate;
+    if (age < 60) return 'fresh';
+    if (age < 300) return 'aging';
+    return 'stale';
+  }
+
+  // ── Connection banner ────────────────────────────────────────────
+  function showConnectionLost(show) {
+    $('connectionBanner').classList.toggle('visible', show);
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════
+    DATA FETCHING
+     ═════════════════════════════════════════════════════════════════ */
+
+  async function fetchJSON(url) {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    return resp.json();
+  }
+
+  // ── Health Polling ───────────────────────────────────────────────
+  async function pollHealth() {
+    try {
+      const data = await fetchJSON('/api/health');
+      consecutiveFailures = 0;
+      showConnectionLost(false);
+      updateHealth(data);
+    } catch (err) {
+      consecutiveFailures++;
+      if (consecutiveFailures >= 3) showConnectionLost(true);
+      $('statusDot').classList.add('degraded');
+      $('statusText').textContent = 'Disconnected';
+    }
+  }
+
+  // ── Metrics Polling ──────────────────────────────────────────────
+  async function pollMetrics() {
+    try {
+      const data = await fetchJSON('/api/metrics');
+      updateMetrics(data);
+    } catch (err) {
+      // Silently handle — health polling will show connection issue
+    }
+  }
+
+  // ── Recent Queries Polling ───────────────────────────────────────
+  async function pollRecentQueries() {
+    try {
+      const data = await fetchJSON('/api/recent-queries');
+      updateQueryLog(data);
+    } catch (err) {
+      // Silently handle
+    }
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════
+    UPDATE FUNCTIONS
+     ═════════════════════════════════════════════════════════════════ */
+
+  function updateHealth(data) {
+    // Status
+    const isHealthy = data.status === 'healthy';
+    const dot = $('statusDot');
+    dot.classList.toggle('degraded', !isHealthy);
+    $('statusText').textContent = isHealthy ? 'Healthy' : data.status.charAt(0).toUpperCase() + data.status.slice(1);
+
+    // Uptime
+    $('uptimeValue').textContent = formatUptime(data.uptime_seconds || 0);
+
+    // Avg Latency Ring
+    const avgMs = data.avg_latency_ms || 0;
+    const prevAvg = parseFloat($('avgLatencyValue').textContent) || 0;
+    animateValue($('avgLatencyValue'), prevAvg, avgMs, 500, (v) => Math.round(v));
+
+    const ring = $('latencyRing');
+    const ratio = Math.min(avgMs / MAX_LATENCY_SCALE, 1);
+    ring.style.strokeDashoffset = CIRCUMFERENCE * (1 - ratio);
+    ring.style.stroke = latencyRingColor(avgMs);
+
+    const latStatus = avgMs < 100 ? 'Excellent' : avgMs < 200 ? 'Acceptable' : 'High latency';
+    $('latencyStatus').textContent = latStatus;
+
+    // Cache Hit Rate Ring
+    const hitRate = data.cache_hit_rate || 0;
+    const prevHit = parseFloat($('cacheHitValue').textContent) || 0;
+    animateValue($('cacheHitValue'), prevHit, hitRate, 500, (v) => v.toFixed(1));
+
+    const cacheRing = $('cacheRing');
+    cacheRing.style.strokeDashoffset = CIRCUMFERENCE * (1 - hitRate / 100);
+    $('cacheStatus').textContent = hitRate > 80 ? 'Highly effective' : hitRate > 50 ? 'Moderate' : 'Low hit rate';
+
+    // Total Queries
+    const totalQ = data.total_queries || 0;
+    const prevQ = parseInt($('totalQueries').textContent) || 0;
+    animateValue($('totalQueries'), prevQ, totalQ, 400, (v) => Math.round(v).toLocaleString());
+
+    // Queries per second
+    const now = Date.now();
+    if (prevTotalQueries !== null && prevTotalQueriesTime !== null) {
+      const dt = (now - prevTotalQueriesTime) / 1000;
+      if (dt > 0) {
+        const qps = (totalQ - prevTotalQueries) / dt;
+        $('queriesPerSec').textContent = `${qps.toFixed(1)} q/s`;
+      }
+    }
+    // Trigger pulse
+    if (prevTotalQueries !== null && totalQ !== prevTotalQueries) {
+      const el = $('totalQueries');
+      el.classList.remove('pulse');
+      void el.offsetWidth; // force reflow
+      el.classList.add('pulse');
+    }
+    prevTotalQueries = totalQ;
+    prevTotalQueriesTime = now;
+
+    // Circuit Breaker
+    const state = data.circuit_state || 'closed';
+    const badge = $('circuitBadge');
+    badge.className = 'circuit-badge ' + state;
+    $('circuitText').textContent = state.toUpperCase().replace('_', ' ');
+
+    const icon = $('circuitIcon');
+    const stateColor = state === 'closed' ? 'var(--emerald)' :
+                      state === 'open' ? 'var(--rose)' : 'var(--amber)';
+    icon.querySelectorAll('circle').forEach(c => {
+      if (c.getAttribute('fill') !== 'none') c.setAttribute('fill', stateColor);
+      else c.setAttribute('stroke', stateColor);
+      c.style.opacity = c.style.opacity; // preserve
+    });
+
+    // Latency Percentiles (from health data)
+    updateLatencyBars({
+      p50: data.avg_latency_ms || 0,       // p50 approximated from avg when not separate
+      p75: data.avg_latency_ms ? data.avg_latency_ms * 1.3 : 0,
+      p95: data.p95_latency_ms || 0,
+      p99: data.p99_latency_ms || 0
+    });
+
+    // Cache Breakdown (from health data hit rates)
+    const total = data.total_queries || 1;
+    const l1 = data.l1_hit_rate || 0;
+    const l2 = data.l2_hit_rate || 0;
+    const l3 = data.l3_hit_rate || 0;
+    const missRate = Math.max(0, 100 - l1 - l2 - l3);
+
+    updateCacheBreakdown({
+      l1: { pct: l1, count: Math.round(l1 / 100 * total) },
+      l2: { pct: l2, count: Math.round(l2 / 100 * total) },
+      l3: { pct: l3, count: Math.round(l3 / 100 * total) },
+      miss: { pct: missRate, count: Math.round(missRate / 100 * total) }
+    });
+
+    // Hot Tickers
+    updateTickers(data.active_tickers || [], data);
+  }
+
+  function updateMetrics(data) {
+    // If the metrics endpoint returns more detailed percentile data, use it
+    if (data.latency_percentiles) {
+      updateLatencyBars(data.latency_percentiles);
+    }
+
+    if (data.cache_layer_counts) {
+      const total = Object.values(data.cache_layer_counts).reduce((a, b) => a + b, 0) || 1;
+      updateCacheBreakdown({
+        l1:   { pct: (data.cache_layer_counts.l1_exact || 0) / total * 100, count: data.cache_layer_counts.l1_exact || 0 },
+        l2:   { pct: (data.cache_layer_counts.l2_semantic || 0) / total * 100, count: data.cache_layer_counts.l2_semantic || 0 },
+        l3:   { pct: (data.cache_layer_counts.l3_hot_ticker || 0) / total * 100, count: data.cache_layer_counts.l3_hot_ticker || 0 },
+        miss: { pct: (data.cache_layer_counts.miss || 0) / total * 100, count: data.cache_layer_counts.miss || 0 }
+      });
+    }
+
+    if (data.hot_tickers) {
+      updateTickersDetailed(data.hot_tickers);
+    }
+  }
+
+  function updateLatencyBars(p) {
+    const maxVal = Math.max(p.p99 || 0, SLA_MS, MAX_LATENCY_SCALE);
+
+    const bars = [
+      { el: $('barP50'), val: p.p50 || 0 },
+      { el: $('barP75'), val: p.p75 || 0 },
+      { el: $('barP95'), val: p.p95 || 0 },
+      { el: $('barP99'), val: p.p99 || 0 }
+    ];
+
+    bars.forEach(({ el, val }) => {
+      const pct = Math.min((val / maxVal) * 100, 100);
+      el.style.height = Math.max(pct, 3) + '%';
+      el.setAttribute('data-value', Math.round(val) + 'ms');
+      el.className = 'latency-bar ' + latencyBarColor(val);
+    });
+
+    // Position SLA line
+    const slaPct = Math.min((SLA_MS / maxVal) * 100, 100);
+    $('slaLine').style.bottom = `calc(${slaPct}% + 30px)`;
+  }
+
+  function updateCacheBreakdown(layers) {
+    Object.entries(layers).forEach(([key, { pct, count }]) => {
+      const barKey = key === 'miss' ? 'Miss' : key.toUpperCase();
+      const barEl = $('cacheBar' + (key === 'miss' ? 'Miss' : key.charAt(0).toUpperCase() + key.slice(1)));
+      const labelEl = $('cacheLabel' + (key === 'miss' ? 'Miss' : key.charAt(0).toUpperCase() + key.slice(1)));
+      const countEl = $('cacheCount' + (key === 'miss' ? 'Miss' : key.charAt(0).toUpperCase() + key.slice(1)));
+
+      if (barEl) barEl.style.width = Math.max(pct, 0) + '%';
+      if (labelEl) labelEl.textContent = pct >= 5 ? pct.toFixed(1) + '%' : '';
+      if (countEl) countEl.textContent = count.toLocaleString();
+    });
+  }
+
+  function updateTickers(tickers, healthData) {
+    const grid = $('tickerGrid');
+    if (!tickers || tickers.length === 0) {
+      grid.innerHTML = '<div class="ticker-empty">No active tickers</div>';
+      return;
+    }
+
+    const now = Date.now() / 1000;
+
+    grid.innerHTML = tickers.map(ticker => {
+      // Simulate freshness based on position (in real use, each ticker would have metadata)
+      const freshness = 'fresh';
+      return `
+        <div class="ticker-badge ${freshness}">
+          <div class="ticker-name">${escapeHtml(ticker)}</div>
+          <div class="ticker-meta">
+            Cached · Active<br/>
+            ${healthData.hot_store_docs || 0} docs
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function updateTickersDetailed(tickers) {
+    const grid = $('tickerGrid');
+    if (!tickers || tickers.length === 0) {
+      grid.innerHTML = '<div class="ticker-empty">No active tickers</div>';
+      return;
+    }
+
+    grid.innerHTML = tickers.map(t => {
+      const freshness = tickerFreshness(t.last_update);
+      return `
+        <div class="ticker-badge ${freshness}">
+          <div class="ticker-name">${escapeHtml(t.ticker || t.name)}</div>
+          <div class="ticker-meta">
+            ${t.last_update ? relativeTime(t.last_update) : 'Unknown'}<br/>
+            ${t.doc_count || 0} docs
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function updateQueryLog(queries) {
+    const log = $('queryLog');
+
+    if (!queries || queries.length === 0) {
+      log.innerHTML = '<div class="log-empty">No queries recorded yet</div>';
+      return;
+    }
+
+    // Support both array and object with .queries property
+    const list = Array.isArray(queries) ? queries : (queries.queries || []);
+
+    if (list.length === 0) {
+      log.innerHTML = '<div class="log-empty">No queries recorded yet</div>';
+      return;
+    }
+
+    const entries = list.slice(0, MAX_LOG_ENTRIES);
+
+    log.innerHTML = entries.map(q => {
+      const latMs = q.latency_ms || q.total_latency_ms || 0;
+      const cacheLayer = q.cache_layer || 'miss';
+      const queryText = q.query || q.query_text || '';
+      const ts = q.timestamp || 0;
+      const truncated = queryText.length > 55 ? queryText.substring(0, 55) + '…' : queryText;
+      const cacheLabel = cacheLayer.replace('l1_exact', 'L1').replace('l2_semantic', 'L2').replace('l3_hot_ticker', 'L3').replace('miss', 'MISS');
+
+      return `
+        <div class="log-entry">
+          <span class="log-query" title="${escapeHtml(queryText)}">${escapeHtml(truncated)}</span>
+          <span class="log-latency ${latencyClass(latMs)}">${Math.round(latMs)}ms</span>
+          <span class="log-cache-badge ${cacheLayer}">${cacheLabel}</span>
+          <span class="log-time">${ts ? relativeTime(ts) : '--'}</span>
+        </div>
+      `;
+    }).join('');
+
+    // Auto-scroll to top (newest first) or bottom depending on order
+    log.scrollTop = 0;
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════
+    QUERY PANEL
+     ═════════════════════════════════════════════════════════════════ */
+
+  window.sendQuery = async function() {
+    const input = $('queryInput');
+    const tickersInput = $('queryTickers');
+    const btn = $('querySendBtn');
+    const responseEl = $('queryResponse');
+
+    const query = input.value.trim();
+    if (!query) { input.focus(); return; }
+
+    const tickers = tickersInput.value
+      .split(/[,\s]+/)
+      .map(t => t.trim().toUpperCase())
+      .filter(Boolean);
+
+    btn.classList.add('loading');
+    btn.disabled = true;
+    responseEl.classList.remove('visible');
+
+    try {
+      const resp = await fetch('/api/query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query: query,
+          tickers: tickers,
+          max_results: 5
+        })
+      });
+
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
+      const data = await resp.json();
+
+      // Populate response
+      $('responseAnswer').innerHTML = '';
+      $('responseAnswer').textContent = data.answer || 'No answer returned.';
+
+      // Stats
+      const stats = $('responseStats');
+      const latMs = data.metrics?.total_latency_ms || 0;
+      const cacheLayer = data.cache_layer || 'miss';
+      const cacheLabel = cacheLayer.replace('l1_exact', 'L1 Hit').replace('l2_semantic', 'L2 Hit').replace('l3_hot_ticker', 'L3 Hit').replace('miss', 'Cache Miss');
+
+      stats.innerHTML = `
+        <span class="response-stat log-latency ${latencyClass(latMs)}">${Math.round(latMs)}ms</span>
+        <span class="response-stat log-cache-badge ${cacheLayer}">${cacheLabel}</span>
+      `;
+
+      // Sources
+      const sources = $('responseSources');
+      if (data.sources && data.sources.length > 0) {
+        sources.innerHTML = data.sources.map(s => {
+          const src = s.document?.source || s.source || 'unknown';
+          const ticker = s.document?.ticker || '';
+          const label = ticker ? `${src} · ${ticker}` : src;
+          return `<span class="source-chip">${escapeHtml(label)}</span>`;
+        }).join('');
+      } else {
+        sources.innerHTML = '<span class="source-chip">No sources</span>';
+      }
+
+      responseEl.classList.add('visible');
+
+    } catch (err) {
+      $('responseAnswer').innerHTML = `<span class="response-error">Error: ${escapeHtml(err.message)}</span>`;
+      $('responseStats').innerHTML = '';
+      $('responseSources').innerHTML = '';
+      responseEl.classList.add('visible');
+    } finally {
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  };
+
+  // Enter key support
+  $('queryInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') window.sendQuery();
+  });
+
+  $('queryTickers').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') window.sendQuery();
+  });
+
+
+  /* ═════════════════════════════════════════════════════════════════
+     HTML ESCAPING
+     ═════════════════════════════════════════════════════════════════ */
+  function escapeHtml(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+
+  /* ═════════════════════════════════════════════════════════════════
+    POLLING INITIALIZATION
+     ═════════════════════════════════════════════════════════════════ */
+
+  // Initial fetch
+  pollHealth();
+  pollMetrics();
+  pollRecentQueries();
+
+  // Recurring polls
+  setInterval(pollHealth, HEALTH_INTERVAL);
+  setInterval(pollMetrics, METRICS_INTERVAL);
+  setInterval(pollRecentQueries, QUERIES_INTERVAL);
+
+  // Log startup
+  console.log(
+    '%c⚡ Financial RAG Dashboard %cv1.0',
+    'color: #f59e0b; font-weight: bold; font-size: 14px;',
+    'color: #6366f1; font-weight: normal; font-size: 12px;'
+  );
+
+})();
+</script>
+
+</body>
+</html>

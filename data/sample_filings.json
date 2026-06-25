@@ -1,0 +1,137 @@
+[
+  {
+    "doc_id": "filing_001",
+    "content": "Apple Inc. reported total net revenue of $94.93 billion for Q3 fiscal 2024, a 4.9% increase year-over-year. iPhone revenue was $46.22 billion, up 2.5% from the prior year quarter. Services revenue reached a record $24.21 billion, growing 14.1% year-over-year. Gross margin expanded to 46.3%, up from 44.5% in the year-ago period. Operating income was $29.44 billion, representing an operating margin of 31.0%. The company returned over $32 billion to shareholders through dividends and share repurchases during the quarter.",
+    "source": "sec_filing",
+    "ticker": "AAPL",
+    "timestamp": 1717200000.0,
+    "temperature": "cold",
+    "metadata": {"filing_type": "10-Q", "quarter": "Q3 2024", "fiscal_year": "2024"}
+  },
+  {
+    "doc_id": "filing_002",
+    "content": "Apple Inc. Management Discussion and Analysis: Greater China revenue declined 6.5% to $14.73 billion, reflecting competitive dynamics in the smartphone market. Americas revenue grew 6.0% to $37.68 billion. Europe revenue increased 7.4% to $24.04 billion driven by favorable foreign exchange and strong demand for iPad Pro. Research and development expenses were $7.79 billion, reflecting continued investment in Apple Intelligence features and Vision Pro ecosystem development. Cash and equivalents totaled $29.80 billion with total marketable securities of $162.33 billion.",
+    "source": "sec_filing",
+    "ticker": "AAPL",
+    "timestamp": 1717200000.0,
+    "temperature": "cold",
+    "metadata": {"filing_type": "10-Q", "quarter": "Q3 2024", "fiscal_year": "2024"}
+  },
+  {
+    "doc_id": "filing_003",
+    "content": "Apple Inc. Risk Factors Update: The company faces regulatory headwinds in the European Union under the Digital Markets Act, which may impact App Store revenue and developer economics. Management estimates potential annual revenue impact of $1.2–$2.0 billion from mandated alternative payment systems. Additionally, U.S.-China trade tensions present ongoing supply chain risks. Approximately 90% of hardware assembly occurs in China, with diversification efforts underway in India and Vietnam expected to shift 25% of iPhone production by end of fiscal 2025.",
+    "source": "sec_filing",
+    "ticker": "AAPL",
+    "timestamp": 1717200000.0,
+    "temperature": "cold",
+    "metadata": {"filing_type": "10-Q", "quarter": "Q3 2024", "fiscal_year": "2024"}
+  },
+  {
+    "doc_id": "filing_004",
+    "content": "NVIDIA Corporation reported record quarterly revenue of $30.04 billion for Q2 fiscal 2025, an increase of 122% year-over-year and 15% sequentially. Data Center revenue was $26.27 billion, up 154% from a year ago, driven by strong demand for Hopper GPU computing platform and networking solutions. GAAP gross margin was 75.1%, reflecting a favorable product mix weighted toward high-ASP H100 and H200 GPUs. GAAP diluted earnings per share was $0.67, up 168% year-over-year. The company guided Q3 revenue to $32.5 billion, plus or minus 2%.",
+    "source": "sec_filing",
+    "ticker": "NVDA",
+    "timestamp": 1717214400.0,
+    "temperature": "cold",
+    "metadata": {"filing_type": "10-Q", "quarter": "Q2 2025", "fiscal_year": "2025"}
+  },
+  {
+    "doc_id": "filing_005",
+    "content": "NVIDIA Corporation Segment Analysis: Gaming revenue was $2.88 billion, up 16% year-over-year as the GeForce RTX 40 series continued to see strong consumer demand. Professional Visualization revenue was $454 million, up 20% driven by enterprise adoption of Omniverse and AI-powered design tools. Automotive revenue was $346 million, up 37% on self-driving platform wins with BYD, Mercedes-Benz, and Jaguar Land Rover. Operating expenses increased 44% to $4.28 billion, primarily from higher headcount in AI research and expanded cloud infrastructure costs.",
+    "source": "sec_filing",
+    "ticker": "NVDA",
+    "timestamp": 1717214400.0,
+    "temperature": "cold",
+    "metadata": {"filing_type": "10-Q", "quarter": "Q2 2025", "fiscal_year": "2025"}
+  },
+  {
+    "doc_id": "filing_006",
+    "content": "NVIDIA Corporation Forward Guidance: Management expects continued strong demand for Blackwell architecture GPUs, with initial production shipments beginning in Q4 fiscal 2025. Blackwell B200 GPUs deliver up to 2.5x the training performance and 5x the inference throughput compared to H100 at the same power consumption. Supply constraints are expected to persist through the first half of fiscal 2026. The company anticipates Data Center revenue growth to moderate to 80-100% year-over-year in the second half of fiscal 2025 as the base effect increases.",
+    "source": "sec_filing",
+    "ticker": "NVDA",
+    "timestamp": 1717214400.0,
+    "temperature": "cold",
+    "metadata": {"filing_type": "10-Q", "quarter": "Q2 2025", "fiscal_year": "2025"}
+  },
+  {
+    "doc_id": "filing_007",
+    "content": "Tesla, Inc. reported total revenue of $25.50 billion for Q2 2024, a 2.3% increase year-over-year. Automotive revenue was $19.88 billion, down 7% year-over-year, impacted by global price reductions and lower average selling prices. Total vehicle deliveries were 443,956, down 4.8% from Q2 2023. Energy generation and storage revenue surged 100% to $3.01 billion, deploying a record 9.4 GWh of energy storage products. GAAP automotive gross margin was 18.5%, down from 19.2% in the prior quarter, reflecting ongoing price competition.",
+    "source": "sec_filing",
+    "ticker": "TSLA",
+    "timestamp": 1717228800.0,
+    "temperature": "cold",
+    "metadata": {"filing_type": "10-Q", "quarter": "Q2 2024", "fiscal_year": "2024"}
+  },
+  {
+    "doc_id": "filing_008",
+    "content": "Tesla, Inc. Business Update: Full Self-Driving (Supervised) v12.5 demonstrated significant improvements with cumulative miles driven exceeding 1.6 billion. The Robotaxi unveil event is planned for October 2024. Cybertruck production ramped to over 1,300 units per week with positive gross margin achieved in June 2024. The company confirmed the next-generation affordable vehicle platform (codenamed Redwood) remains on track for production start in H1 2025, targeting a sub-$30,000 starting price to address the mass market.",
+    "source": "sec_filing",
+    "ticker": "TSLA",
+    "timestamp": 1717228800.0,
+    "temperature": "cold",
+    "metadata": {"filing_type": "10-Q", "quarter": "Q2 2024", "fiscal_year": "2024"}
+  },
+  {
+    "doc_id": "filing_009",
+    "content": "Tesla, Inc. Financial Position: Free cash flow was $1.34 billion in Q2 2024. Cash and investments totaled $30.72 billion, an increase of $3.9 billion from the prior quarter. Capital expenditure was $2.27 billion, primarily for Gigafactory expansions in Austin and a new Megafactory in Lathrop, California. Operating expenses were $2.97 billion, with R&D representing $1.13 billion focused on AI training infrastructure, Dojo supercomputer expansion, and next-generation powertrain development. Total debt decreased to $5.78 billion.",
+    "source": "sec_filing",
+    "ticker": "TSLA",
+    "timestamp": 1717228800.0,
+    "temperature": "cold",
+    "metadata": {"filing_type": "10-Q", "quarter": "Q2 2024", "fiscal_year": "2024"}
+  },
+  {
+    "doc_id": "filing_010",
+    "content": "Microsoft Corporation reported revenue of $64.73 billion for Q4 fiscal 2024, an increase of 15% year-over-year. Intelligent Cloud segment revenue was $28.52 billion, up 19%, with Azure and other cloud services revenue growing 29% (30% in constant currency). Microsoft Cloud revenue surpassed $36.8 billion, up 21%. GAAP operating income was $27.93 billion, an increase of 15%, with an operating margin of 43.1%. LinkedIn revenue grew 10% to $4.2 billion. Copilot for Microsoft 365 enterprise customers grew over 60% quarter-over-quarter.",
+    "source": "sec_filing",
+    "ticker": "MSFT",
+    "timestamp": 1717236000.0,
+    "temperature": "cold",
+    "metadata": {"filing_type": "10-K", "quarter": "Q4 2024", "fiscal_year": "2024"}
+  },
+  {
+    "doc_id": "filing_011",
+    "content": "Microsoft Corporation Capital Allocation: Capital expenditures were $19.0 billion in Q4, a 78% increase year-over-year, driven by massive investment in AI infrastructure and data center capacity. For fiscal 2025, the company guided capex of $80 billion, the largest single-year infrastructure investment in corporate history. The company returned $9.1 billion to shareholders via dividends ($5.6B) and share repurchases ($3.5B). Total cash and short-term investments were $75.5 billion. Management indicated Azure growth would accelerate to 31-32% in Q1 FY25.",
+    "source": "sec_filing",
+    "ticker": "MSFT",
+    "timestamp": 1717236000.0,
+    "temperature": "cold",
+    "metadata": {"filing_type": "10-K", "quarter": "Q4 2024", "fiscal_year": "2024"}
+  },
+  {
+    "doc_id": "filing_012",
+    "content": "Alphabet Inc. reported consolidated revenue of $84.74 billion for Q2 2024, an increase of 13.6% year-over-year. Google Services revenue was $73.93 billion, up 12%. Google Cloud revenue was $10.35 billion, up 28.8%, with operating income of $1.17 billion compared to $395 million in the year-ago quarter, reflecting improved margins from scale. YouTube advertising revenue reached $8.66 billion, up 13%. GAAP operating margin was 32.4%, up from 29.1%. The company initiated its first-ever dividend of $0.20 per share and authorized a $70 billion share repurchase program.",
+    "source": "sec_filing",
+    "ticker": "GOOGL",
+    "timestamp": 1717232400.0,
+    "temperature": "cold",
+    "metadata": {"filing_type": "10-Q", "quarter": "Q2 2024", "fiscal_year": "2024"}
+  },
+  {
+    "doc_id": "filing_013",
+    "content": "Alphabet Inc. Segment Details: Google Search and other revenue was $48.51 billion, up 13.8%, reflecting strong demand for AI-powered search experiences including AI Overviews. Network revenue was $7.44 billion, down 5.2%. Other Bets reported revenue of $365 million with operating losses of $1.13 billion, primarily from Waymo commercialization expenses. Total headcount was 179,582, a reduction of 3,200 from the prior quarter following restructuring efforts. Traffic acquisition costs were $13.39 billion, representing 29.2% of advertising revenue.",
+    "source": "sec_filing",
+    "ticker": "GOOGL",
+    "timestamp": 1717232400.0,
+    "temperature": "cold",
+    "metadata": {"filing_type": "10-Q", "quarter": "Q2 2024", "fiscal_year": "2024"}
+  },
+  {
+    "doc_id": "filing_014",
+    "content": "JPMorgan Chase & Co. reported net revenue of $51.0 billion for Q2 2024, an increase of 20% year-over-year. Net income was $18.15 billion, or $6.12 per diluted share. Consumer & Community Banking revenue was $17.7 billion, with average deposits of $1.15 trillion. Net interest income was $22.9 billion, up 4% as higher-for-longer interest rates benefited lending margins. Investment banking fees were $2.46 billion, up 46% from a year ago as capital markets activity rebounded. Provision for credit losses was $3.05 billion, up 38%.",
+    "source": "sec_filing",
+    "ticker": "JPM",
+    "timestamp": 1717221600.0,
+    "temperature": "cold",
+    "metadata": {"filing_type": "10-Q", "quarter": "Q2 2024", "fiscal_year": "2024"}
+  },
+  {
+    "doc_id": "filing_015",
+    "content": "JPMorgan Chase & Co. Risk Management: The allowance for credit losses was $22.2 billion, covering 2.06% of total loans. Commercial real estate exposure was $174 billion, with office loans representing $24 billion and an 8.2% non-accrual rate reflecting ongoing stress in the sector. CET1 capital ratio was 15.3%, well above the 11.9% regulatory minimum. The firm's trading revenue was $7.8 billion, up 12%, with fixed income markets generating $5.1 billion. Assets under management in the Wealth Management division reached $3.7 trillion.",
+    "source": "sec_filing",
+    "ticker": "JPM",
+    "timestamp": 1717221600.0,
+    "temperature": "cold",
+    "metadata": {"filing_type": "10-Q", "quarter": "Q2 2024", "fiscal_year": "2024"}
+  }
+]

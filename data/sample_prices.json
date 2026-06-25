@@ -1,0 +1,128 @@
+[
+  {
+    "doc_id": "price_001",
+    "content": "AAPL current price $198.52, change +2.3% ($4.46), volume 78.2M shares. 52-week high $199.62, 52-week low $164.08. Market cap $3.04T.",
+    "source": "price_feed",
+    "ticker": "AAPL",
+    "timestamp": 1717243200.0,
+    "temperature": "hot",
+    "metadata": {"price": 198.52, "change_pct": 2.3, "volume": "78.2M", "market_cap": "3.04T", "high_52w": 199.62, "low_52w": 164.08}
+  },
+  {
+    "doc_id": "price_002",
+    "content": "NVDA current price $1,224.40, change +3.5% ($41.40), volume 52.4M shares. 52-week high $1,255.87, 52-week low $366.02. Market cap $3.01T.",
+    "source": "price_feed",
+    "ticker": "NVDA",
+    "timestamp": 1717243200.0,
+    "temperature": "hot",
+    "metadata": {"price": 1224.40, "change_pct": 3.5, "volume": "52.4M", "market_cap": "3.01T", "high_52w": 1255.87, "low_52w": 366.02}
+  },
+  {
+    "doc_id": "price_003",
+    "content": "TSLA current price $196.37, change +4.8% ($8.99), volume 94.1M shares. 52-week high $299.29, 52-week low $138.80. Market cap $626.5B.",
+    "source": "price_feed",
+    "ticker": "TSLA",
+    "timestamp": 1717243200.0,
+    "temperature": "hot",
+    "metadata": {"price": 196.37, "change_pct": 4.8, "volume": "94.1M", "market_cap": "626.5B", "high_52w": 299.29, "low_52w": 138.80}
+  },
+  {
+    "doc_id": "price_004",
+    "content": "MSFT current price $432.68, change +1.9% ($8.07), volume 22.8M shares. 52-week high $441.85, 52-week low $309.45. Market cap $3.22T.",
+    "source": "price_feed",
+    "ticker": "MSFT",
+    "timestamp": 1717243200.0,
+    "temperature": "hot",
+    "metadata": {"price": 432.68, "change_pct": 1.9, "volume": "22.8M", "market_cap": "3.22T", "high_52w": 441.85, "low_52w": 309.45}
+  },
+  {
+    "doc_id": "price_005",
+    "content": "GOOGL current price $178.35, change +5.1% ($8.67), volume 31.6M shares. 52-week high $178.35, 52-week low $115.83. Market cap $2.21T.",
+    "source": "price_feed",
+    "ticker": "GOOGL",
+    "timestamp": 1717243200.0,
+    "temperature": "hot",
+    "metadata": {"price": 178.35, "change_pct": 5.1, "volume": "31.6M", "market_cap": "2.21T", "high_52w": 178.35, "low_52w": 115.83}
+  },
+  {
+    "doc_id": "price_006",
+    "content": "AMZN current price $192.46, change +3.4% ($6.33), volume 48.7M shares. 52-week high $201.20, 52-week low $118.35. Market cap $2.01T.",
+    "source": "price_feed",
+    "ticker": "AMZN",
+    "timestamp": 1717243200.0,
+    "temperature": "hot",
+    "metadata": {"price": 192.46, "change_pct": 3.4, "volume": "48.7M", "market_cap": "2.01T", "high_52w": 201.20, "low_52w": 118.35}
+  },
+  {
+    "doc_id": "price_007",
+    "content": "META current price $507.12, change +2.7% ($13.32), volume 16.3M shares. 52-week high $531.49, 52-week low $274.38. Market cap $1.29T.",
+    "source": "price_feed",
+    "ticker": "META",
+    "timestamp": 1717243200.0,
+    "temperature": "hot",
+    "metadata": {"price": 507.12, "change_pct": 2.7, "volume": "16.3M", "market_cap": "1.29T", "high_52w": 531.49, "low_52w": 274.38}
+  },
+  {
+    "doc_id": "price_008",
+    "content": "BTC current price $71,247.83, change +4.2% ($2,872.15), 24h volume $42.3B. 52-week high $73,750.07, 52-week low $24,930.30. Market cap $1.40T.",
+    "source": "price_feed",
+    "ticker": "BTC",
+    "timestamp": 1717243500.0,
+    "temperature": "hot",
+    "metadata": {"price": 71247.83, "change_pct": 4.2, "volume": "42.3B", "market_cap": "1.40T", "high_52w": 73750.07, "low_52w": 24930.30}
+  },
+  {
+    "doc_id": "price_009",
+    "content": "ETH current price $3,842.56, change +6.2% ($224.18), 24h volume $18.7B. 52-week high $4,093.84, 52-week low $1,523.24. Market cap $462.1B.",
+    "source": "price_feed",
+    "ticker": "ETH",
+    "timestamp": 1717243500.0,
+    "temperature": "hot",
+    "metadata": {"price": 3842.56, "change_pct": 6.2, "volume": "18.7B", "market_cap": "462.1B", "high_52w": 4093.84, "low_52w": 1523.24}
+  },
+  {
+    "doc_id": "price_010",
+    "content": "SPY current price $547.10, change +0.85% ($4.62), volume 64.5M shares. 52-week high $548.03, 52-week low $410.34. AUM $562.8B.",
+    "source": "price_feed",
+    "ticker": "SPY",
+    "timestamp": 1717243200.0,
+    "temperature": "hot",
+    "metadata": {"price": 547.10, "change_pct": 0.85, "volume": "64.5M", "market_cap": "562.8B", "high_52w": 548.03, "low_52w": 410.34}
+  },
+  {
+    "doc_id": "price_011",
+    "content": "QQQ current price $476.88, change +1.2% ($5.65), volume 38.9M shares. 52-week high $479.25, 52-week low $342.52. AUM $289.4B.",
+    "source": "price_feed",
+    "ticker": "QQQ",
+    "timestamp": 1717243200.0,
+    "temperature": "hot",
+    "metadata": {"price": 476.88, "change_pct": 1.2, "volume": "38.9M", "market_cap": "289.4B", "high_52w": 479.25, "low_52w": 342.52}
+  },
+  {
+    "doc_id": "price_012",
+    "content": "JPM current price $205.88, change +2.8% ($5.61), volume 11.3M shares. 52-week high $209.42, 52-week low $135.19. Market cap $593.2B.",
+    "source": "price_feed",
+    "ticker": "JPM",
+    "timestamp": 1717243200.0,
+    "temperature": "hot",
+    "metadata": {"price": 205.88, "change_pct": 2.8, "volume": "11.3M", "market_cap": "593.2B", "high_52w": 209.42, "low_52w": 135.19}
+  },
+  {
+    "doc_id": "price_013",
+    "content": "GS current price $467.23, change +3.1% ($14.03), volume 3.2M shares. 52-week high $475.88, 52-week low $289.36. Market cap $157.4B.",
+    "source": "price_feed",
+    "ticker": "GS",
+    "timestamp": 1717243200.0,
+    "temperature": "hot",
+    "metadata": {"price": 467.23, "change_pct": 3.1, "volume": "3.2M", "market_cap": "157.4B", "high_52w": 475.88, "low_52w": 289.36}
+  },
+  {
+    "doc_id": "price_014",
+    "content": "BAC current price $40.12, change +1.6% ($0.63), volume 36.8M shares. 52-week high $41.05, 52-week low $24.96. Market cap $316.5B.",
+    "source": "price_feed",
+    "ticker": "BAC",
+    "timestamp": 1717243200.0,
+    "temperature": "hot",
+    "metadata": {"price": 40.12, "change_pct": 1.6, "volume": "36.8M", "market_cap": "316.5B", "high_52w": 41.05, "low_52w": 24.96}
+  }
+]
