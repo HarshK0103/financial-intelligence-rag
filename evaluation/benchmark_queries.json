@@ -1,0 +1,32 @@
+[
+  {
+    "id": "aapl_q3_revenue",
+    "query": "What was Apple revenue in Q3 fiscal 2024?",
+    "tickers": ["AAPL"],
+    "relevant_doc_ids": ["filing_001"]
+  },
+  {
+    "id": "nvda_q2_revenue",
+    "query": "What was NVIDIA revenue in Q2 fiscal 2025?",
+    "tickers": ["NVDA"],
+    "relevant_doc_ids": ["filing_004"]
+  },
+  {
+    "id": "aapl_china_risk",
+    "query": "What are Apple's China risk factors?",
+    "tickers": ["AAPL"],
+    "relevant_doc_ids": ["filing_003"]
+  },
+  {
+    "id": "btc_etf_news",
+    "query": "Why did Bitcoin rally on ETF inflows?",
+    "tickers": ["BTC"],
+    "relevant_doc_ids": ["news_007"]
+  },
+  {
+    "id": "gs_banking_revenue",
+    "query": "How did Goldman Sachs investment banking revenue perform?",
+    "tickers": ["GS"],
+    "relevant_doc_ids": ["news_012"]
+  }
+]
