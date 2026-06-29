@@ -42,10 +42,7 @@ class CircuitBreakerOpenError(Exception):
     def __init__(self, name: str, retry_after: float) -> None:
         self.name = name
         self.retry_after = retry_after
-        super().__init__(
-            f"Circuit breaker '{name}' is OPEN — "
-            f"retry after {retry_after:.1f}s"
-        )
+        super().__init__(f"Circuit breaker '{name}' is OPEN — " f"retry after {retry_after:.1f}s")
 
 
 class CircuitBreaker:
@@ -94,8 +91,7 @@ class CircuitBreaker:
         self._total_rejections: int = 0
 
         logger.info(
-            "CircuitBreaker '%s' created  threshold=%d  "
-            "recovery=%.1fs  half_open_max=%d",
+            "CircuitBreaker '%s' created  threshold=%d  " "recovery=%.1fs  half_open_max=%d",
             self._name,
             self._failure_threshold,
             self._recovery_timeout,
@@ -206,8 +202,7 @@ class CircuitBreaker:
         if self._state == CircuitState.OPEN:
             retry_after = max(
                 0.0,
-                self._recovery_timeout
-                - (time.monotonic() - self._last_failure_time),
+                self._recovery_timeout - (time.monotonic() - self._last_failure_time),
             )
             self._total_rejections += 1
             raise CircuitBreakerOpenError(self._name, retry_after)
@@ -231,8 +226,7 @@ class CircuitBreaker:
                     self._success_count = 0
                     self._half_open_calls = 0
                     logger.info(
-                        "CircuitBreaker '%s' → CLOSED  "
-                        "(recovered after %d successes)",
+                        "CircuitBreaker '%s' → CLOSED  " "(recovered after %d successes)",
                         self._name,
                         self._half_open_max,
                     )
@@ -254,16 +248,14 @@ class CircuitBreaker:
                 self._half_open_calls = 0
                 self._success_count = 0
                 logger.warning(
-                    "CircuitBreaker '%s' → OPEN  "
-                    "(probe failed, failure_count=%d)",
+                    "CircuitBreaker '%s' → OPEN  " "(probe failed, failure_count=%d)",
                     self._name,
                     self._failure_count,
                 )
             elif self._failure_count >= self._failure_threshold:
                 self._state = CircuitState.OPEN
                 logger.warning(
-                    "CircuitBreaker '%s' → OPEN  "
-                    "(threshold %d reached)",
+                    "CircuitBreaker '%s' → OPEN  " "(threshold %d reached)",
                     self._name,
                     self._failure_threshold,
                 )

@@ -11,7 +11,6 @@ from app.resilience.circuit_breaker import CircuitBreaker
 from app.resilience.degraded_mode import DegradedMode
 from app.resilience.timeout_handler import TimeoutHandler
 
-
 # ---------------------------------------------------------------------------
 # Test fixtures
 # ---------------------------------------------------------------------------
@@ -103,9 +102,7 @@ async def test_full_resilience_chain():
 @pytest.mark.asyncio
 async def test_circuit_recovery_after_success():
     """Circuit recovers from OPEN to CLOSED after successful calls in HALF_OPEN."""
-    cb = CircuitBreaker(
-        failure_threshold=2, recovery_timeout=0.05, half_open_max_calls=1
-    )
+    cb = CircuitBreaker(failure_threshold=2, recovery_timeout=0.05, half_open_max_calls=1)
 
     # Trip the circuit
     for _ in range(2):

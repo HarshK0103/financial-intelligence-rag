@@ -41,14 +41,10 @@ class FreshnessScorer:
     ) -> None:
         cfg = get_config().consistency
         self._halflife: float = (
-            halflife_seconds
-            if halflife_seconds is not None
-            else cfg.freshness_decay_halflife_seconds
+            halflife_seconds if halflife_seconds is not None else cfg.freshness_decay_halflife_seconds
         )
         self._stale_threshold: float = (
-            stale_threshold_seconds
-            if stale_threshold_seconds is not None
-            else cfg.stale_threshold_seconds
+            stale_threshold_seconds if stale_threshold_seconds is not None else cfg.stale_threshold_seconds
         )
 
         # Pre-compute the decay constant  λ = ln(2) / t½

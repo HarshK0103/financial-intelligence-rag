@@ -56,24 +56,18 @@ class TestGenerate:
         assert len(result) > 0
 
     @pytest.mark.asyncio
-    async def test_empty_docs_returns_no_documents_message(
-        self, engine: InferenceEngine
-    ) -> None:
+    async def test_empty_docs_returns_no_documents_message(self, engine: InferenceEngine) -> None:
         result = await engine.generate("random query", [], QueryType.GENERAL)
         assert "no relevant documents" in result.lower()
 
     @pytest.mark.asyncio
-    async def test_price_template_includes_disclaimer(
-        self, engine: InferenceEngine
-    ) -> None:
+    async def test_price_template_includes_disclaimer(self, engine: InferenceEngine) -> None:
         docs = [_scored_doc("AAPL last traded at $195.50")]
         result = await engine.generate("AAPL stock price", docs, QueryType.PRICE)
         assert "verify" in result.lower() or "delayed" in result.lower()
 
     @pytest.mark.asyncio
-    async def test_each_query_type_produces_output(
-        self, engine: InferenceEngine
-    ) -> None:
+    async def test_each_query_type_produces_output(self, engine: InferenceEngine) -> None:
         docs = [_scored_doc("Sample financial data for testing")]
         for qt in QueryType:
             result = await engine.generate("test query", docs, qt)
@@ -93,9 +87,7 @@ class TestBudgetEnforcement:
         assert len(result) <= max_chars + 10  # small buffer for " …"
 
     @pytest.mark.asyncio
-    async def test_short_output_not_truncated(
-        self, engine: InferenceEngine
-    ) -> None:
+    async def test_short_output_not_truncated(self, engine: InferenceEngine) -> None:
         docs = [_scored_doc("Short.")]
         result = await engine.generate("test", docs, QueryType.GENERAL)
         assert "…" not in result

@@ -66,8 +66,7 @@ class ConnectorSyncService:
         """Trigger one immediate sync for one or all connectors."""
         counts: dict[str, int] = {}
         targets = [
-            connector for connector in self._connectors
-            if connector_name is None or connector.name == connector_name
+            connector for connector in self._connectors if connector_name is None or connector.name == connector_name
         ]
         for connector in targets:
             counts[connector.name] = await self._sync_connector(connector)
@@ -117,9 +116,7 @@ class ConnectorSyncService:
 
             now_ts = time.time()
             self._last_sync_ts[connector.name] = now_ts
-            self._documents_synced[connector.name] = (
-                self._documents_synced.get(connector.name, 0) + len(filtered_docs)
-            )
+            self._documents_synced[connector.name] = self._documents_synced.get(connector.name, 0) + len(filtered_docs)
             self._last_error.pop(connector.name, None)
             duration_seconds = time.perf_counter() - started
             observe_connector_sync(

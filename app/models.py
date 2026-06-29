@@ -13,17 +13,19 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
-
 # ── Enums ──────────────────────────────────────────────────────────
+
 
 class DataTemperature(str, Enum):
     """Whether data is hot (real-time) or cold (historical)."""
+
     HOT = "hot"
     COLD = "cold"
 
 
 class CacheLayer(str, Enum):
     """Which cache layer served the response."""
+
     L1_EXACT = "l1_exact"
     L2_SEMANTIC = "l2_semantic"
     L3_HOT_TICKER = "l3_hot_ticker"
@@ -32,6 +34,7 @@ class CacheLayer(str, Enum):
 
 class CircuitState(str, Enum):
     """Circuit breaker states."""
+
     CLOSED = "closed"
     OPEN = "open"
     HALF_OPEN = "half_open"
@@ -39,6 +42,7 @@ class CircuitState(str, Enum):
 
 class QueryType(str, Enum):
     """Classification of incoming financial queries."""
+
     PRICE = "price"
     EARNINGS = "earnings"
     NEWS = "news"
@@ -49,12 +53,13 @@ class QueryType(str, Enum):
 
 # ── Documents ──────────────────────────────────────────────────────
 
+
 class Document(BaseModel):
     """A retrievable financial document chunk."""
 
     doc_id: str
     content: str
-    source: str = ""                       # e.g., "sec_filing", "news", "price_feed"
+    source: str = ""  # e.g., "sec_filing", "news", "price_feed"
     ticker: str | None = None
     timestamp: float = Field(default_factory=time.time)
     temperature: DataTemperature = DataTemperature.COLD
@@ -79,21 +84,24 @@ class ScoredDocument(BaseModel):
 
 # ── API Request / Response ─────────────────────────────────────────
 
+
 class QueryRequest(BaseModel):
     """Incoming query from the client."""
 
     query: str = Field(..., min_length=1, max_length=1000)
     tickers: list[str] = Field(default_factory=list)
     max_results: int = Field(default=5, ge=1, le=20)
-    require_fresh: bool = False             # Force bypass stale caches
-    timeout_ms: int | None = None           # Client-specified SLA override
+    require_fresh: bool = False  # Force bypass stale caches
+    timeout_ms: int | None = None  # Client-specified SLA override
 
-    model_config = {"json_schema_extra": {
-        "examples": [
-            {"query": "What was AAPL revenue in Q3 2024?", "tickers": ["AAPL"]},
-            {"query": "Compare NVDA and AMD GPU revenue growth", "tickers": ["NVDA", "AMD"]},
-        ]
-    }}
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {"query": "What was AAPL revenue in Q3 2024?", "tickers": ["AAPL"]},
+                {"query": "Compare NVDA and AMD GPU revenue growth", "tickers": ["NVDA", "AMD"]},
+            ]
+        }
+    }
 
 
 class QueryResponse(BaseModel):
@@ -103,7 +111,7 @@ class QueryResponse(BaseModel):
     sources: list[ScoredDocument] = Field(default_factory=list)
     query_type: QueryType = QueryType.GENERAL
     cache_layer: CacheLayer = CacheLayer.MISS
-    is_degraded: bool = False                # True if served from degraded mode
+    is_degraded: bool = False  # True if served from degraded mode
     metrics: ResponseMetrics | None = None
 
 
@@ -134,13 +142,14 @@ class ResponseMetrics(BaseModel):
 
 # ── Cache Entries ──────────────────────────────────────────────────
 
+
 class CacheEntry(BaseModel):
     """Entry stored in any cache layer."""
 
     query: str
     query_hash: str = ""
     response: QueryResponse
-    embedding: list[float] | None = None     # For semantic cache
+    embedding: list[float] | None = None  # For semantic cache
     created_at: float = Field(default_factory=time.time)
     ttl_seconds: float = 30.0
     access_count: int = 0
@@ -153,6 +162,7 @@ class CacheEntry(BaseModel):
 
 # ── Ingestion ──────────────────────────────────────────────────────
 
+
 class IngestionEvent(BaseModel):
     """An event representing new data to ingest."""
 
@@ -160,7 +170,7 @@ class IngestionEvent(BaseModel):
     documents: list[Document]
     source: str
     timestamp: float = Field(default_factory=time.time)
-    priority: int = 0                        # Higher = more urgent
+    priority: int = 0  # Higher = more urgent
 
 
 class IngestionResult(BaseModel):
@@ -174,6 +184,7 @@ class IngestionResult(BaseModel):
 
 
 # ── System Health ──────────────────────────────────────────────────
+
 
 class SystemHealth(BaseModel):
     """Aggregate system health metrics for the dashboard."""

@@ -36,4 +36,3 @@ class BaseConnector(ABC):
 
     async def close(self) -> None:
         """Release network resources when needed."""
-

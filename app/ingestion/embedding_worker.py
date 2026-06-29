@@ -67,8 +67,7 @@ class EmbeddingWorker:
         self._total_errors: int = 0
 
         logger.info(
-            "EmbeddingWorker initialised  dim=%d  rate_limit=%.1f/s  "
-            "batch_size=%d  max_concurrency=%d",
+            "EmbeddingWorker initialised  dim=%d  rate_limit=%.1f/s  " "batch_size=%d  max_concurrency=%d",
             self._dim,
             self._rate_limit,
             self._batch_size,
@@ -141,12 +140,8 @@ class EmbeddingWorker:
         """
         result: list[Document] = []
         pending_docs = [doc for doc in docs if doc.embedding is None]
-        vectors = await self._embedding_service.embed_texts(
-            [doc.content for doc in pending_docs]
-        )
-        vectors_by_id = {
-            doc.doc_id: vector for doc, vector in zip(pending_docs, vectors, strict=True)
-        }
+        vectors = await self._embedding_service.embed_texts([doc.content for doc in pending_docs])
+        vectors_by_id = {doc.doc_id: vector for doc, vector in zip(pending_docs, vectors, strict=True)}
 
         for doc in docs:
             try:
@@ -162,7 +157,8 @@ class EmbeddingWorker:
 
             except Exception:
                 logger.exception(
-                    "Failed to embed doc_id=%s", doc.doc_id,
+                    "Failed to embed doc_id=%s",
+                    doc.doc_id,
                 )
                 self._total_errors += 1
                 # Still include the doc — downstream can decide what
@@ -198,7 +194,7 @@ class EmbeddingWorker:
         now = time.monotonic()
         elapsed = now - self._last_refill
         self._tokens = min(
-            self._rate_limit,                 # bucket capacity
+            self._rate_limit,  # bucket capacity
             self._tokens + elapsed * self._rate_limit,
         )
         self._last_refill = now

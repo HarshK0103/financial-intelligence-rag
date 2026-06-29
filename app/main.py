@@ -111,9 +111,7 @@ class QueryPipeline:
         if cached_response is not None and not request.require_fresh:
             metrics.cache_hit = True
             metrics.cache_layer = CacheLayer.L1_EXACT
-            metrics.cache_lookup_ms = round(
-                (time.perf_counter() - cache_total_start) * 1000, 2
-            )
+            metrics.cache_lookup_ms = round((time.perf_counter() - cache_total_start) * 1000, 2)
             cached_response.cache_layer = CacheLayer.L1_EXACT
             cached_response.query_type = query_type
             cached_response.metrics = metrics
@@ -125,9 +123,7 @@ class QueryPipeline:
         if cached_response is not None and not request.require_fresh:
             metrics.cache_hit = True
             metrics.cache_layer = CacheLayer.L3_HOT_TICKER
-            metrics.cache_lookup_ms = round(
-                (time.perf_counter() - cache_total_start) * 1000, 2
-            )
+            metrics.cache_lookup_ms = round((time.perf_counter() - cache_total_start) * 1000, 2)
             cached_response.cache_layer = CacheLayer.L3_HOT_TICKER
             cached_response.query_type = query_type
             cached_response.metrics = metrics
@@ -135,16 +131,12 @@ class QueryPipeline:
 
         embedding_start = time.perf_counter()
         query_embedding = await self._generate_query_embedding(request.query)
-        metrics.query_embedding_ms = round(
-            (time.perf_counter() - embedding_start) * 1000, 2
-        )
+        metrics.query_embedding_ms = round((time.perf_counter() - embedding_start) * 1000, 2)
 
         l2_start = time.perf_counter()
         cached_response = await self.cache_manager.l2.get(request.query, query_embedding)
         metrics.l2_cache_ms = round((time.perf_counter() - l2_start) * 1000, 2)
-        metrics.cache_lookup_ms = round(
-            (time.perf_counter() - cache_total_start) * 1000, 2
-        )
+        metrics.cache_lookup_ms = round((time.perf_counter() - cache_total_start) * 1000, 2)
         if cached_response is not None and not request.require_fresh:
             metrics.cache_hit = True
             metrics.cache_layer = CacheLayer.L2_SEMANTIC
@@ -175,9 +167,7 @@ class QueryPipeline:
                 f"Retrieval failed: {exc}",
             )
 
-        metrics.retrieval_ms = round(
-            (time.perf_counter() - retrieval_start) * 1000, 2
-        )
+        metrics.retrieval_ms = round((time.perf_counter() - retrieval_start) * 1000, 2)
         metrics.bm25_retrieval_ms = retrieval_timings.bm25_ms
         metrics.vector_retrieval_ms = retrieval_timings.vector_ms
         metrics.reranking_ms = retrieval_timings.reranking_ms
@@ -195,9 +185,7 @@ class QueryPipeline:
         scored_docs.sort(key=lambda doc: doc.final_score, reverse=True)
         scored_docs = scored_docs[: request.max_results]
         metrics.documents_reranked = len(scored_docs)
-        metrics.freshness_scoring_ms = round(
-            (time.perf_counter() - freshness_start) * 1000, 2
-        )
+        metrics.freshness_scoring_ms = round((time.perf_counter() - freshness_start) * 1000, 2)
         if scored_docs:
             freshness_vals = [sdoc.freshness_score for sdoc in scored_docs]
             metrics.freshness_min = round(min(freshness_vals), 3)
@@ -218,9 +206,7 @@ class QueryPipeline:
             logger.warning("Inference failed: %s", exc)
             answer = "Inference unavailable. Retrieved documents are listed below."
 
-        metrics.inference_ms = round(
-            (time.perf_counter() - inference_start) * 1000, 2
-        )
+        metrics.inference_ms = round((time.perf_counter() - inference_start) * 1000, 2)
         metrics.cache_layer = CacheLayer.MISS
         metrics.circuit_state = self.circuit_breaker.state
 
@@ -359,11 +345,7 @@ async def lifespan(app: FastAPI):
     async def index_documents(docs: list[Document]) -> int:
         await data_router.add_documents(docs)
         await bm25_retriever.add_documents(docs)
-        await vector_retriever.add_documents([
-            (doc, doc.embedding)
-            for doc in docs
-            if doc.embedding is not None
-        ])
+        await vector_retriever.add_documents([(doc, doc.embedding) for doc in docs if doc.embedding is not None])
         return len(docs)
 
     async def invalidate_tickers(tickers: list[str]) -> int:
@@ -410,11 +392,7 @@ async def lifespan(app: FastAPI):
 
     if all_docs:
         await bm25_retriever.add_documents(all_docs)
-        await vector_retriever.add_documents([
-            (doc, doc.embedding)
-            for doc in all_docs
-            if doc.embedding is not None
-        ])
+        await vector_retriever.add_documents([(doc, doc.embedding) for doc in all_docs if doc.embedding is not None])
         logger.info(
             "Built retrieval indexes: BM25=%d docs, Vector=%d docs",
             bm25_retriever.corpus_size,

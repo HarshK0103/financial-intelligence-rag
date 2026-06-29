@@ -27,35 +27,55 @@ MAX_FILING_BYTES: Final[int] = 10 * 1024 * 1024  # 10 MB safety limit
 # SEC filings have standard sections identified by "Item N" headers.
 
 _SECTION_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
-    ("risk_factors", re.compile(
-        r"item\s+1a[\.\:\s\u2014\u2013\-]+risk\s+factors",
-        re.IGNORECASE,
-    )),
-    ("mda", re.compile(
-        r"item\s+7[\.\:\s\u2014\u2013\-]+"
-        r"management.{0,10}s?\s+discussion\s+and\s+analysis",
-        re.IGNORECASE,
-    )),
-    ("financial_statements", re.compile(
-        r"item\s+8[\.\:\s\u2014\u2013\-]+financial\s+statements",
-        re.IGNORECASE,
-    )),
-    ("business", re.compile(
-        r"item\s+1[\.\:\s\u2014\u2013\-]+business(?!\s+address)",
-        re.IGNORECASE,
-    )),
-    ("legal_proceedings", re.compile(
-        r"item\s+3[\.\:\s\u2014\u2013\-]+legal\s+proceedings",
-        re.IGNORECASE,
-    )),
-    ("revenue_recognition", re.compile(
-        r"revenue\s+recognition",
-        re.IGNORECASE,
-    )),
-    ("segment_information", re.compile(
-        r"segment\s+(?:information|reporting|results)",
-        re.IGNORECASE,
-    )),
+    (
+        "risk_factors",
+        re.compile(
+            r"item\s+1a[\.\:\s\u2014\u2013\-]+risk\s+factors",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "mda",
+        re.compile(
+            r"item\s+7[\.\:\s\u2014\u2013\-]+" r"management.{0,10}s?\s+discussion\s+and\s+analysis",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "financial_statements",
+        re.compile(
+            r"item\s+8[\.\:\s\u2014\u2013\-]+financial\s+statements",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "business",
+        re.compile(
+            r"item\s+1[\.\:\s\u2014\u2013\-]+business(?!\s+address)",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "legal_proceedings",
+        re.compile(
+            r"item\s+3[\.\:\s\u2014\u2013\-]+legal\s+proceedings",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "revenue_recognition",
+        re.compile(
+            r"revenue\s+recognition",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "segment_information",
+        re.compile(
+            r"segment\s+(?:information|reporting|results)",
+            re.IGNORECASE,
+        ),
+    ),
 ]
 
 
@@ -70,13 +90,36 @@ class _HTMLTextExtractor(HTMLParser):
     (iXBRL) content entirely.
     """
 
-    _BLOCK_TAGS: Final[frozenset[str]] = frozenset({
-        "p", "div", "br", "hr", "h1", "h2", "h3", "h4", "h5", "h6",
-        "li", "tr", "td", "th", "table", "section", "article",
-    })
-    _SKIP_TAGS: Final[frozenset[str]] = frozenset({
-        "script", "style", "head", "meta", "link",
-    })
+    _BLOCK_TAGS: Final[frozenset[str]] = frozenset(
+        {
+            "p",
+            "div",
+            "br",
+            "hr",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "li",
+            "tr",
+            "td",
+            "th",
+            "table",
+            "section",
+            "article",
+        }
+    )
+    _SKIP_TAGS: Final[frozenset[str]] = frozenset(
+        {
+            "script",
+            "style",
+            "head",
+            "meta",
+            "link",
+        }
+    )
 
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
@@ -248,14 +291,14 @@ def parse_filing(
             overlap_words=overlap_words,
         )
         for idx, chunk in enumerate(chunks):
-            prefix = (
-                f"[{ticker} {form_type} — {section_name.replace('_', ' ').title()}] "
+            prefix = f"[{ticker} {form_type} — {section_name.replace('_', ' ').title()}] "
+            result.append(
+                {
+                    "content": prefix + chunk,
+                    "section": section_name,
+                    "chunk_index": str(idx),
+                }
             )
-            result.append({
-                "content": prefix + chunk,
-                "section": section_name,
-                "chunk_index": str(idx),
-            })
 
     logger.info(
         "Parsed %s %s filing: %d sections, %d chunks",

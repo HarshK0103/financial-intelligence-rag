@@ -30,36 +30,111 @@ logger = logging.getLogger(__name__)
 
 # ── Keyword maps for classification ──────────────────────────────
 
-_PRICE_KEYWORDS: Final[frozenset[str]] = frozenset({
-    "price", "stock price", "share price", "trading", "market cap",
-    "valuation", "pe ratio", "p/e", "52-week", "high", "low",
-    "close", "open", "volume", "bid", "ask", "quote",
-})
+_PRICE_KEYWORDS: Final[frozenset[str]] = frozenset(
+    {
+        "price",
+        "stock price",
+        "share price",
+        "trading",
+        "market cap",
+        "valuation",
+        "pe ratio",
+        "p/e",
+        "52-week",
+        "high",
+        "low",
+        "close",
+        "open",
+        "volume",
+        "bid",
+        "ask",
+        "quote",
+    }
+)
 
-_EARNINGS_KEYWORDS: Final[frozenset[str]] = frozenset({
-    "earnings", "revenue", "profit", "eps", "ebitda", "margin",
-    "quarterly", "annual", "q1", "q2", "q3", "q4", "fiscal",
-    "income", "operating", "net income", "gross", "guidance",
-    "forecast", "beat", "miss",
-})
+_EARNINGS_KEYWORDS: Final[frozenset[str]] = frozenset(
+    {
+        "earnings",
+        "revenue",
+        "profit",
+        "eps",
+        "ebitda",
+        "margin",
+        "quarterly",
+        "annual",
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "fiscal",
+        "income",
+        "operating",
+        "net income",
+        "gross",
+        "guidance",
+        "forecast",
+        "beat",
+        "miss",
+    }
+)
 
-_NEWS_KEYWORDS: Final[frozenset[str]] = frozenset({
-    "news", "headline", "breaking", "report", "announce",
-    "announcement", "release", "press", "update", "latest",
-    "today", "yesterday", "recent", "filed",
-})
+_NEWS_KEYWORDS: Final[frozenset[str]] = frozenset(
+    {
+        "news",
+        "headline",
+        "breaking",
+        "report",
+        "announce",
+        "announcement",
+        "release",
+        "press",
+        "update",
+        "latest",
+        "today",
+        "yesterday",
+        "recent",
+        "filed",
+    }
+)
 
-_COMPARISON_KEYWORDS: Final[frozenset[str]] = frozenset({
-    "compare", "comparison", "versus", "vs", "vs.", "differ",
-    "difference", "better", "worse", "outperform", "underperform",
-    "relative", "against",
-})
+_COMPARISON_KEYWORDS: Final[frozenset[str]] = frozenset(
+    {
+        "compare",
+        "comparison",
+        "versus",
+        "vs",
+        "vs.",
+        "differ",
+        "difference",
+        "better",
+        "worse",
+        "outperform",
+        "underperform",
+        "relative",
+        "against",
+    }
+)
 
-_ANALYSIS_KEYWORDS: Final[frozenset[str]] = frozenset({
-    "analysis", "analyze", "analyst", "forecast", "outlook",
-    "risk", "opportunity", "strategy", "recommendation", "target",
-    "rating", "upgrade", "downgrade", "bull", "bear", "sentiment",
-})
+_ANALYSIS_KEYWORDS: Final[frozenset[str]] = frozenset(
+    {
+        "analysis",
+        "analyze",
+        "analyst",
+        "forecast",
+        "outlook",
+        "risk",
+        "opportunity",
+        "strategy",
+        "recommendation",
+        "target",
+        "rating",
+        "upgrade",
+        "downgrade",
+        "bull",
+        "bear",
+        "sentiment",
+    }
+)
 
 
 # ── Templates ─────────────────────────────────────────────────────
@@ -71,15 +146,9 @@ _TEMPLATES: dict[QueryType, str] = {
         "Note: Financial data may be delayed. "
         "Verify with your broker for real-time pricing."
     ),
-    QueryType.EARNINGS: (
-        "Earnings Summary:\n\n"
-        "{context}\n\n"
-        "Key takeaway: {takeaway}"
-    ),
+    QueryType.EARNINGS: ("Earnings Summary:\n\n" "{context}\n\n" "Key takeaway: {takeaway}"),
     QueryType.NEWS: (
-        "Recent developments:\n\n"
-        "{context}\n\n"
-        "This summary is based on the most recent sources available."
+        "Recent developments:\n\n" "{context}\n\n" "This summary is based on the most recent sources available."
     ),
     QueryType.COMPARISON: (
         "Comparative Analysis:\n\n"
@@ -93,10 +162,7 @@ _TEMPLATES: dict[QueryType, str] = {
         "This analysis reflects data as of the latest available date. "
         "Consult a licensed financial advisor for personalised advice."
     ),
-    QueryType.GENERAL: (
-        "Here is what the available data shows:\n\n"
-        "{context}"
-    ),
+    QueryType.GENERAL: ("Here is what the available data shows:\n\n" "{context}"),
 }
 
 
@@ -122,8 +188,7 @@ class InferenceEngine:
         self._template_mode: bool = cfg.inference.template_mode_enabled
 
         logger.info(
-            "InferenceEngine initialised  max_tokens=%d  compression=%s  "
-            "template_mode=%s",
+            "InferenceEngine initialised  max_tokens=%d  compression=%s  " "template_mode=%s",
             self._max_tokens,
             self._compression,
             self._template_mode,

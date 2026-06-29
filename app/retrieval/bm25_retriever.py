@@ -27,13 +27,13 @@ logger = logging.getLogger(__name__)
 # Matches tickers ($AAPL), percentages (3.5%), dollar amounts ($1.2B),
 # dates (2024-01-15, Q3 2024), and ordinary words/numbers.
 _TOKEN_PATTERN: re.Pattern[str] = re.compile(
-    r"\$[A-Z]{1,5}"           # $TICKER
-    r"|[A-Z]{1,5}(?=\s)"     # bare tickers (all-caps ≤5 chars)
-    r"|\d+[.,]?\d*[%BMKbmk]?" # numbers with optional suffix
-    r"|Q[1-4]\s?\d{4}"       # quarter references
+    r"\$[A-Z]{1,5}"  # $TICKER
+    r"|[A-Z]{1,5}(?=\s)"  # bare tickers (all-caps ≤5 chars)
+    r"|\d+[.,]?\d*[%BMKbmk]?"  # numbers with optional suffix
+    r"|Q[1-4]\s?\d{4}"  # quarter references
     r"|\d{4}[-/]\d{2}[-/]\d{2}"  # ISO dates
-    r"|[A-Za-z0-9]+"         # ordinary tokens
-    , re.ASCII,
+    r"|[A-Za-z0-9]+",  # ordinary tokens
+    re.ASCII,
 )
 
 
@@ -43,8 +43,7 @@ def _tokenize(text: str) -> list[str]:
     Returns lower-cased tokens while preserving ticker symbols and
     numeric patterns that carry meaning in financial queries.
     """
-    return [tok.upper() if tok.startswith("$") else tok.lower()
-            for tok in _TOKEN_PATTERN.findall(text)]
+    return [tok.upper() if tok.startswith("$") else tok.lower() for tok in _TOKEN_PATTERN.findall(text)]
 
 
 class BM25Retriever:
@@ -167,7 +166,9 @@ class BM25Retriever:
         # the event loop responsive.
         loop = asyncio.get_running_loop()
         raw_scores: list[float] = await loop.run_in_executor(
-            None, self._index.get_scores, query_tokens,
+            None,
+            self._index.get_scores,
+            query_tokens,
         )
 
         # Pair scores with indices and pick top-k.
@@ -181,14 +182,15 @@ class BM25Retriever:
         for idx, score in scored_indices:
             if score <= 0.0:
                 break  # remaining are zero or negative
-            results.append(ScoredDocument(
-                document=self._documents[idx],
-                bm25_score=float(score),
-            ))
+            results.append(
+                ScoredDocument(
+                    document=self._documents[idx],
+                    bm25_score=float(score),
+                )
+            )
 
         elapsed_ms = (time.perf_counter() - t0) * 1_000
-        logger.debug("BM25: query=%r top_k=%d results=%d elapsed=%.2fms",
-                      query, top_k, len(results), elapsed_ms)
+        logger.debug("BM25: query=%r top_k=%d results=%d elapsed=%.2fms", query, top_k, len(results), elapsed_ms)
         return results
 
     # ── Introspection ──────────────────────────────────────────────

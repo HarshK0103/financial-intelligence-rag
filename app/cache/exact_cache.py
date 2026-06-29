@@ -291,9 +291,7 @@ class ExactCache:
             redis = await self._get_redis()
             if redis is not None:
                 try:
-                    await redis.delete(
-                        *(f"{self._KEY_PREFIX}{k}" for k in keys_to_remove)
-                    )
+                    await redis.delete(*(f"{self._KEY_PREFIX}{k}" for k in keys_to_remove))
                 except Exception as exc:
                     logger.warning("ExactCache Redis bulk DELETE failed: %s", exc)
 
@@ -316,9 +314,7 @@ class ExactCache:
             try:
                 cursor: int | str = 0
                 while True:
-                    cursor, keys = await redis.scan(
-                        cursor=int(cursor), match=f"{self._KEY_PREFIX}*", count=500
-                    )
+                    cursor, keys = await redis.scan(cursor=int(cursor), match=f"{self._KEY_PREFIX}*", count=500)
                     if keys:
                         await redis.delete(*keys)
                     if cursor == 0:

@@ -9,7 +9,6 @@ from app.cache.cache_manager import CacheManager
 from app.cache.exact_cache import ExactCache
 from app.models import CacheLayer, QueryResponse
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -103,12 +102,8 @@ async def test_l1_invalidation_preserves_other_tickers():
 async def test_invalidation_returns_counts():
     """invalidate_by_tickers returns a dict with per-layer counts."""
     manager = _make_cache_manager()
-    await manager.set(
-        "q1", None, QueryResponse(answer="a"), tickers=["AAPL"]
-    )
-    await manager.set(
-        "q2", None, QueryResponse(answer="b"), tickers=["AAPL"]
-    )
+    await manager.set("q1", None, QueryResponse(answer="a"), tickers=["AAPL"])
+    await manager.set("q2", None, QueryResponse(answer="b"), tickers=["AAPL"])
 
     counts = await manager.invalidate_by_tickers(["AAPL"])
 
@@ -121,9 +116,7 @@ async def test_invalidation_returns_counts():
 async def test_empty_ticker_list_no_op():
     """Invalidating with empty ticker list removes nothing."""
     manager = _make_cache_manager()
-    await manager.set(
-        "query", None, QueryResponse(answer="data"), tickers=["AAPL"]
-    )
+    await manager.set("query", None, QueryResponse(answer="data"), tickers=["AAPL"])
 
     counts = await manager.invalidate_by_tickers([])
 
@@ -141,9 +134,7 @@ async def test_cache_invalidator_removes_entries():
     manager = _make_cache_manager()
     invalidator = CacheInvalidator(manager)
 
-    await manager.set(
-        "AAPL info", None, QueryResponse(answer="data"), tickers=["AAPL"]
-    )
+    await manager.set("AAPL info", None, QueryResponse(answer="data"), tickers=["AAPL"])
 
     record = await invalidator.invalidate(["AAPL"], source="test")
 

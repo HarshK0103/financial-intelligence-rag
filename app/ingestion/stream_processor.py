@@ -74,9 +74,7 @@ class StreamProcessor:
 
         self._embedding_worker = embedding_worker or EmbeddingWorker()
         self._on_index: IndexCallback = on_index or self._default_index
-        self._on_cache_invalidate: InvalidationCallback = (
-            on_cache_invalidate or self._default_invalidate
-        )
+        self._on_cache_invalidate: InvalidationCallback = on_cache_invalidate or self._default_invalidate
 
         self._workers: list[asyncio.Task[None]] = []
         self._running: bool = False
@@ -108,9 +106,7 @@ class StreamProcessor:
             If the processor has not been started.
         """
         if not self._running:
-            raise RuntimeError(
-                "StreamProcessor is not running — call start_processing() first."
-            )
+            raise RuntimeError("StreamProcessor is not running — call start_processing() first.")
         await self._queue.put(event)
         self._events_submitted += 1
         logger.debug(
@@ -217,10 +213,7 @@ class StreamProcessor:
                 batch_events.append(event)
 
                 # Drain up to batch_size without blocking.
-                while (
-                    len(batch_events) < self._batch_size
-                    and not self._queue.empty()
-                ):
+                while len(batch_events) < self._batch_size and not self._queue.empty():
                     next_event = self._queue.get_nowait()
                     if next_event is None:
                         break
@@ -251,7 +244,9 @@ class StreamProcessor:
                 self._events_processed += 1
             except Exception:
                 logger.exception(
-                    "worker-%d failed event %s", worker_id, event.event_id,
+                    "worker-%d failed event %s",
+                    worker_id,
+                    event.event_id,
                 )
                 self._events_failed += 1
                 results.append(
@@ -282,9 +277,7 @@ class StreamProcessor:
         indexed_count = await self._on_index(embedded_docs)
 
         # 3. Collect unique tickers to invalidate caches.
-        tickers = list(
-            {doc.ticker for doc in embedded_docs if doc.ticker}
-        )
+        tickers = list({doc.ticker for doc in embedded_docs if doc.ticker})
         invalidated = 0
         if tickers:
             invalidated = await self._on_cache_invalidate(tickers)

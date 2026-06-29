@@ -124,7 +124,7 @@ async def test_hit_miss_counters(cache: SemanticCache) -> None:
     emb = _embedding(8)
     await cache.set("q", emb, QueryResponse(answer="x"))
 
-    await cache.get("q", emb)             # hit
+    await cache.get("q", emb)  # hit
     await cache.get("q", _different_embedding())  # miss
 
     assert cache.hits >= 1

@@ -21,9 +21,7 @@ async def test_hybrid_retrieval_returns_indexed_document() -> None:
 
     await bm25.add_documents([document])
     await vector.add_documents([(document, embedding)])
-    results = await RetrievalEngine(bm25, vector, Reranker()).retrieve(
-        "AAPL revenue", embedding, top_k=5
-    )
+    results = await RetrievalEngine(bm25, vector, Reranker()).retrieve("AAPL revenue", embedding, top_k=5)
 
     assert results
     assert results[0].document.doc_id == "filing_test"

@@ -59,17 +59,17 @@ class _HealthTracker:
     ) -> None:
         self.total_queries += 1
         self.latencies.append(latency_ms)
-        self.cache_hits[response.cache_layer] = (
-            self.cache_hits.get(response.cache_layer, 0) + 1
+        self.cache_hits[response.cache_layer] = self.cache_hits.get(response.cache_layer, 0) + 1
+        self.recent_queries.appendleft(
+            {
+                "query": query[:80],
+                "latency_ms": round(latency_ms, 2),
+                "cache_layer": response.cache_layer.value,
+                "is_degraded": response.is_degraded,
+                "timestamp": time.time(),
+                "query_type": response.query_type.value,
+            }
         )
-        self.recent_queries.appendleft({
-            "query": query[:80],
-            "latency_ms": round(latency_ms, 2),
-            "cache_layer": response.cache_layer.value,
-            "is_degraded": response.is_degraded,
-            "timestamp": time.time(),
-            "query_type": response.query_type.value,
-        })
 
     def get_percentile(self, p: float) -> float:
         if not self.latencies:
@@ -82,11 +82,7 @@ class _HealthTracker:
     def get_health(self) -> dict:
         total_hits = sum(self.cache_hits.values())
         cache_misses = self.cache_hits.get(CacheLayer.MISS, 0)
-        cache_hit_rate = (
-            (total_hits - cache_misses) / total_hits * 100
-            if total_hits > 0
-            else 0.0
-        )
+        cache_hit_rate = (total_hits - cache_misses) / total_hits * 100 if total_hits > 0 else 0.0
         l1 = self.cache_hits.get(CacheLayer.L1_EXACT, 0)
         l2 = self.cache_hits.get(CacheLayer.L2_SEMANTIC, 0)
         l3 = self.cache_hits.get(CacheLayer.L3_HOT_TICKER, 0)
@@ -95,9 +91,7 @@ class _HealthTracker:
             "status": "healthy",
             "uptime_seconds": round(time.time() - self.start_time, 1),
             "total_queries": self.total_queries,
-            "avg_latency_ms": round(
-                sum(self.latencies) / len(self.latencies), 2
-            ) if self.latencies else 0.0,
+            "avg_latency_ms": round(sum(self.latencies) / len(self.latencies), 2) if self.latencies else 0.0,
             "p50_latency_ms": round(self.get_percentile(50), 2),
             "p75_latency_ms": round(self.get_percentile(75), 2),
             "p95_latency_ms": round(self.get_percentile(95), 2),
@@ -172,9 +166,7 @@ async def query_endpoint(request: QueryRequest) -> QueryResponse:
 
     serialization_start = time.perf_counter()
     response.model_dump(mode="json")
-    response.metrics.serialization_ms = round(
-        (time.perf_counter() - serialization_start) * 1000, 2
-    )
+    response.metrics.serialization_ms = round((time.perf_counter() - serialization_start) * 1000, 2)
 
     _health_tracker.record_query(request.query, response, latency_ms)
     observe_query_response(response, _health_tracker)
@@ -199,9 +191,9 @@ async def health_endpoint() -> dict:
             health["circuit_state"] = _pipeline.circuit_breaker.state.value
             health["ingestion_queue_size"] = _pipeline.stream_processor.queue_size
             health["inference_backend"] = getattr(_pipeline, "inference_backend", "unknown")
-            health["active_tickers"] = list(
-                _pipeline.hot_ticker_cache.get_cached_tickers()
-            ) if hasattr(_pipeline, "hot_ticker_cache") else []
+            health["active_tickers"] = (
+                list(_pipeline.hot_ticker_cache.get_cached_tickers()) if hasattr(_pipeline, "hot_ticker_cache") else []
+            )
             if hasattr(_pipeline, "connector_sync_service"):
                 health["connectors"] = _pipeline.connector_sync_service.status_snapshot()
 
@@ -273,6 +265,7 @@ async def recent_queries_endpoint() -> dict:
 
 class IngestRequest(BaseModel):
     """Request body for the ingest endpoint."""
+
     documents: list[dict]
     source: str = "manual"
 
@@ -296,9 +289,7 @@ async def ingest_endpoint(request: IngestRequest) -> dict:
             docs.append(Document(**d))
 
         event = IngestionEvent(
-            event_id=hashlib.md5(
-                f"{time.time()}_{len(docs)}".encode()
-            ).hexdigest()[:12],
+            event_id=hashlib.md5(f"{time.time()}_{len(docs)}".encode()).hexdigest()[:12],
             documents=docs,
             source=request.source,
         )

@@ -37,22 +37,12 @@ logger = logging.getLogger(__name__)
 # ── Pre-built canned messages (kept short for hot-path) ──────────
 
 _DEGRADED_MESSAGES: dict[str, str] = {
-    "timeout": (
-        "The system could not complete your request within the "
-        "latency budget. Please try again shortly."
-    ),
+    "timeout": ("The system could not complete your request within the " "latency budget. Please try again shortly."),
     "circuit_open": (
-        "A downstream dependency is temporarily unavailable. "
-        "The system is serving cached or partial results."
+        "A downstream dependency is temporarily unavailable. " "The system is serving cached or partial results."
     ),
-    "overload": (
-        "The system is experiencing high load. "
-        "Your request has been served in a reduced capacity."
-    ),
-    "unknown": (
-        "The system is operating in degraded mode. "
-        "Results may be incomplete or stale."
-    ),
+    "overload": ("The system is experiencing high load. " "Your request has been served in a reduced capacity."),
+    "unknown": ("The system is operating in degraded mode. " "Results may be incomplete or stale."),
 }
 
 
@@ -160,8 +150,7 @@ class DegradedMode:
             query_type = QueryType.GENERAL
 
         logger.info(
-            "Degraded response (cached)  reason=%s  cache_layer=%s  "
-            "answer_len=%d",
+            "Degraded response (cached)  reason=%s  cache_layer=%s  " "answer_len=%d",
             reason,
             cache_layer.value,
             len(answer),
@@ -265,11 +254,7 @@ class DegradedMode:
         cache_layer: CacheLayer,
     ) -> ResponseMetrics:
         """Attach minimal metrics to a degraded response."""
-        circuit = (
-            CircuitState.OPEN
-            if reason == "circuit_open"
-            else CircuitState.CLOSED
-        )
+        circuit = CircuitState.OPEN if reason == "circuit_open" else CircuitState.CLOSED
         return ResponseMetrics(
             total_latency_ms=0.0,
             cache_hit=cache_layer != CacheLayer.MISS,

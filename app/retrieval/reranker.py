@@ -115,21 +115,21 @@ class Reranker:
             position = self._compute_position_score(rank, n_docs)
             freshness = self._compute_freshness(sdoc.document.timestamp, now)
 
-            rerank = (
-                _WEIGHT_OVERLAP * overlap
-                + _WEIGHT_POSITION * position
-                + _WEIGHT_FRESHNESS * freshness
-            )
+            rerank = _WEIGHT_OVERLAP * overlap + _WEIGHT_POSITION * position + _WEIGHT_FRESHNESS * freshness
 
             # Blend retriever score and reranker score.
             retriever_score = max(sdoc.bm25_score, sdoc.vector_score, sdoc.final_score)
             final = 0.4 * retriever_score + 0.6 * rerank
 
-            scored.append(sdoc.model_copy(update={
-                "rerank_score": round(rerank, 6),
-                "freshness_score": round(freshness, 6),
-                "final_score": round(final, 6),
-            }))
+            scored.append(
+                sdoc.model_copy(
+                    update={
+                        "rerank_score": round(rerank, 6),
+                        "freshness_score": round(freshness, 6),
+                        "final_score": round(final, 6),
+                    }
+                )
+            )
 
         scored.sort(key=lambda s: s.final_score, reverse=True)
         results = scored[:top_k]
@@ -137,7 +137,10 @@ class Reranker:
         elapsed_ms = (time.perf_counter() - t0) * 1_000
         logger.debug(
             "Reranker: query=%r candidates=%d returned=%d elapsed=%.2fms",
-            query, n_docs, len(results), elapsed_ms,
+            query,
+            n_docs,
+            len(results),
+            elapsed_ms,
         )
         return results
 

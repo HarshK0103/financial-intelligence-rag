@@ -8,7 +8,6 @@ from unittest.mock import AsyncMock, MagicMock, patch
 from app.connectors.base import BaseConnector, ConnectorFetchResult
 from app.models import Document
 
-
 # ---------------------------------------------------------------------------
 # Mock connector
 # ---------------------------------------------------------------------------
@@ -28,14 +27,10 @@ class MockConnector(BaseConnector):
         self._docs = docs or []
         self._should_fail = should_fail
 
-    async def fetch_documents(
-        self, *, since_ts: float | None = None
-    ) -> ConnectorFetchResult:
+    async def fetch_documents(self, *, since_ts: float | None = None) -> ConnectorFetchResult:
         if self._should_fail:
             raise RuntimeError("Connector failure")
-        return ConnectorFetchResult(
-            connector_name=self.name, documents=self._docs
-        )
+        return ConnectorFetchResult(connector_name=self.name, documents=self._docs)
 
 
 def _make_doc(doc_id: str = "doc_001") -> Document:
@@ -62,9 +57,7 @@ async def test_sync_once_calls_connector(mock_observe):
     connector = MockConnector(docs=[doc])
     submit_event = AsyncMock()
 
-    service = ConnectorSyncService(
-        [connector], submit_event, startup_sync=False
-    )
+    service = ConnectorSyncService([connector], submit_event, startup_sync=False)
     counts = await service.sync_once()
 
     assert counts["mock"] == 1
@@ -81,9 +74,7 @@ async def test_dedup_prevents_duplicate_ingestion(mock_observe):
     connector = MockConnector(docs=[doc])
     submit_event = AsyncMock()
 
-    service = ConnectorSyncService(
-        [connector], submit_event, startup_sync=False
-    )
+    service = ConnectorSyncService([connector], submit_event, startup_sync=False)
     await service.sync_once()
     await service.sync_once()  # Second sync with same doc_id
 
@@ -97,9 +88,7 @@ async def test_status_snapshot_format():
     from app.connectors.sync_service import ConnectorSyncService
 
     connector = MockConnector(name="test_snap")
-    service = ConnectorSyncService(
-        [connector], AsyncMock(), startup_sync=False
-    )
+    service = ConnectorSyncService([connector], AsyncMock(), startup_sync=False)
     snapshot = service.status_snapshot()
 
     assert "test_snap" in snapshot
@@ -131,9 +120,7 @@ async def test_sync_error_recorded(mock_observe):
     from app.connectors.sync_service import ConnectorSyncService
 
     connector = MockConnector(should_fail=True, name="failing")
-    service = ConnectorSyncService(
-        [connector], AsyncMock(), startup_sync=False
-    )
+    service = ConnectorSyncService([connector], AsyncMock(), startup_sync=False)
 
     with pytest.raises(RuntimeError):
         await service.sync_once()
@@ -151,9 +138,7 @@ async def test_seen_capacity_eviction():
     """Old doc IDs are evicted when seen_capacity is exceeded."""
     from app.connectors.sync_service import ConnectorSyncService
 
-    service = ConnectorSyncService(
-        [], AsyncMock(), startup_sync=False, seen_capacity=3
-    )
+    service = ConnectorSyncService([], AsyncMock(), startup_sync=False, seen_capacity=3)
 
     # Fill to capacity
     assert service._remember_doc("a") is True

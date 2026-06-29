@@ -104,10 +104,7 @@ class ColdStore:
             else:
                 candidates = list(self._docs.values())
 
-            matches = [
-                doc for doc in candidates
-                if query_lower in doc.content.lower()
-            ]
+            matches = [doc for doc in candidates if query_lower in doc.content.lower()]
 
             # Sort by timestamp descending (newest first).
             matches.sort(key=lambda d: d.timestamp, reverse=True)

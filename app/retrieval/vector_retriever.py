@@ -59,10 +59,7 @@ class VectorRetriever:
         """Convert a single embedding list to a (1, dim) float32 array."""
         arr = np.array(embedding, dtype=np.float32).reshape(1, -1)
         if arr.shape[1] != self._dim:
-            raise ValueError(
-                f"Embedding dimension mismatch: expected {self._dim}, "
-                f"got {arr.shape[1]}"
-            )
+            raise ValueError(f"Embedding dimension mismatch: expected {self._dim}, " f"got {arr.shape[1]}")
         return arr
 
     # ── Corpus mutations ───────────────────────────────────────────
@@ -114,7 +111,8 @@ class VectorRetriever:
 
             logger.info(
                 "Vector: added %d documents (index size=%d)",
-                len(docs_to_add), self._index.ntotal,
+                len(docs_to_add),
+                self._index.ntotal,
             )
             return len(docs_to_add)
 
@@ -201,7 +199,10 @@ class VectorRetriever:
 
         loop = asyncio.get_running_loop()
         distances, indices = await loop.run_in_executor(
-            None, self._index.search, query_vec, effective_k,
+            None,
+            self._index.search,
+            query_vec,
+            effective_k,
         )
 
         results: list[ScoredDocument] = []
@@ -212,15 +213,19 @@ class VectorRetriever:
             if doc is None:
                 logger.warning("Vector: position %d not found in mapping", idx)
                 continue
-            results.append(ScoredDocument(
-                document=doc,
-                vector_score=float(dist),
-            ))
+            results.append(
+                ScoredDocument(
+                    document=doc,
+                    vector_score=float(dist),
+                )
+            )
 
         elapsed_ms = (time.perf_counter() - t0) * 1_000
         logger.debug(
             "Vector: top_k=%d results=%d elapsed=%.2fms",
-            top_k, len(results), elapsed_ms,
+            top_k,
+            len(results),
+            elapsed_ms,
         )
         return results
 

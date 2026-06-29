@@ -7,10 +7,10 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import httpx
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def _make_config(enabled: bool = True):
     cfg = MagicMock()
@@ -28,8 +28,10 @@ def _make_config(enabled: bool = True):
 
 def _build_engine(enabled: bool = True, mock_client=None):
     """Create an OllamaInferenceEngine with mocked config and client."""
-    with patch("app.inference.ollama_inference_engine.get_config") as mock_cfg, \
-         patch("app.inference.inference_engine.get_config") as mock_cfg2:
+    with (
+        patch("app.inference.ollama_inference_engine.get_config") as mock_cfg,
+        patch("app.inference.inference_engine.get_config") as mock_cfg2,
+    ):
         cfg = _make_config(enabled)
         mock_cfg.return_value = cfg
         mock_cfg2.return_value = cfg
@@ -63,9 +65,7 @@ async def test_generate_ollama_success():
     mock_response = MagicMock()
     mock_response.status_code = 200
     mock_response.raise_for_status = MagicMock()
-    mock_response.json.return_value = {
-        "message": {"content": "AAPL is trading at $195.50 based on latest data."}
-    }
+    mock_response.json.return_value = {"message": {"content": "AAPL is trading at $195.50 based on latest data."}}
     mock_client.post = AsyncMock(return_value=mock_response)
 
     engine = _build_engine(enabled=True, mock_client=mock_client)

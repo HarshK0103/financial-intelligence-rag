@@ -48,9 +48,7 @@ class TimeoutHandler:
     def __init__(self, timeout_multiplier: float | None = None) -> None:
         cfg = get_config()
         self._multiplier = (
-            timeout_multiplier
-            if timeout_multiplier is not None
-            else cfg.resilience.stage_timeout_multiplier
+            timeout_multiplier if timeout_multiplier is not None else cfg.resilience.stage_timeout_multiplier
         )
 
         # Diagnostic counters
@@ -105,8 +103,7 @@ class TimeoutHandler:
                 # Completed but exceeded the soft budget (within
                 # the multiplied grace period).
                 logger.warning(
-                    "Stage '%s' completed but exceeded soft budget: "
-                    "%.1fms > %.1fms budget  (hard limit %.1fms)",
+                    "Stage '%s' completed but exceeded soft budget: " "%.1fms > %.1fms budget  (hard limit %.1fms)",
                     stage_name,
                     elapsed_ms,
                     timeout_ms,

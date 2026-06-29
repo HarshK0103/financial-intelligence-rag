@@ -67,8 +67,20 @@ class CacheConfig:
     l2_max_entries: int = 5_000
     l3_refresh_interval_seconds: int = 30
     l3_tickers: tuple[str, ...] = (
-        "AAPL", "NVDA", "TSLA", "MSFT", "GOOGL", "AMZN", "META",
-        "BTC", "ETH", "SPY", "QQQ", "JPM", "GS", "BAC",
+        "AAPL",
+        "NVDA",
+        "TSLA",
+        "MSFT",
+        "GOOGL",
+        "AMZN",
+        "META",
+        "BTC",
+        "ETH",
+        "SPY",
+        "QQQ",
+        "JPM",
+        "GS",
+        "BAC",
     )
 
 
@@ -182,25 +194,25 @@ class ConnectorConfig:
         "SEC_USER_AGENT",
         "FinancialRAG/1.0 contact=admin@example.com",
     )
-    sec_cik_map: dict[str, str] = field(default_factory=lambda: _env_json_dict(
-        "SEC_CIK_MAP",
-        {
-            "AAPL": "0000320193",
-            "MSFT": "0000789019",
-            "NVDA": "0001045810",
-            "AMZN": "0001018724",
-            "META": "0001326801",
-            "GOOGL": "0001652044",
-            "TSLA": "0001318605",
-            "JPM": "0000019617",
-            "GS": "0000886982",
-            "BAC": "0000070858",
-        },
-    ))
+    sec_cik_map: dict[str, str] = field(
+        default_factory=lambda: _env_json_dict(
+            "SEC_CIK_MAP",
+            {
+                "AAPL": "0000320193",
+                "MSFT": "0000789019",
+                "NVDA": "0001045810",
+                "AMZN": "0001018724",
+                "META": "0001326801",
+                "GOOGL": "0001652044",
+                "TSLA": "0001318605",
+                "JPM": "0000019617",
+                "GS": "0000886982",
+                "BAC": "0000070858",
+            },
+        )
+    )
     sec_forms: tuple[str, ...] = tuple(
-        form.strip().upper()
-        for form in os.getenv("SEC_FORMS", "10-K,10-Q,8-K").split(",")
-        if form.strip()
+        form.strip().upper() for form in os.getenv("SEC_FORMS", "10-K,10-Q,8-K").split(",") if form.strip()
     )
     sec_full_text: bool = _env_bool("CONNECTORS_SEC_FULL_TEXT", False)
     finnhub_enabled: bool = _env_bool("FINNHUB_ENABLED", True)

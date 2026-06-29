@@ -100,7 +100,10 @@ class DataRouter:
 
         logger.debug(
             "DataRouter: query=%r hot=%.1f cold=%.1f → %s",
-            query[:60], hot_score, cold_score, temperature.value,
+            query[:60],
+            hot_score,
+            cold_score,
+            temperature.value,
         )
         return temperature
 
@@ -159,7 +162,8 @@ class DataRouter:
             await self._cold.add_document(doc)
         logger.debug(
             "DataRouter: routed doc_id=%s → %s store",
-            doc.doc_id, doc.temperature.value,
+            doc.doc_id,
+            doc.temperature.value,
         )
 
     async def add_documents(self, docs: Sequence[Document]) -> dict[str, int]:
@@ -182,7 +186,9 @@ class DataRouter:
             cold_count = await self._cold.add_documents(cold_batch)
 
         logger.info(
-            "DataRouter: batch routed hot=%d cold=%d", hot_count, cold_count,
+            "DataRouter: batch routed hot=%d cold=%d",
+            hot_count,
+            cold_count,
         )
         return {"hot": hot_count, "cold": cold_count}
 

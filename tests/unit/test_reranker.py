@@ -61,9 +61,7 @@ async def test_fewer_docs_than_top_k(reranker: Reranker) -> None:
 async def test_query_overlap_boosts_score(reranker: Reranker) -> None:
     relevant = _scored_doc("AAPL revenue grew 15% in Q3 2024 earnings report")
     irrelevant = _scored_doc("The weather forecast for tomorrow is sunny")
-    result = await reranker.rerank(
-        "AAPL revenue earnings", [irrelevant, relevant], top_k=2
-    )
+    result = await reranker.rerank("AAPL revenue earnings", [irrelevant, relevant], top_k=2)
     # The relevant doc should be ranked first
     assert "revenue" in result[0].document.content.lower()
 

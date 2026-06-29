@@ -110,8 +110,7 @@ class CacheInvalidator:
         self._record(record)
 
         logger.info(
-            "CacheInvalidator invalidated %d entries for tickers=%s "
-            "source=%s in %.2fms (L1=%d, L2=%d, L3=%d)",
+            "CacheInvalidator invalidated %d entries for tickers=%s " "source=%s in %.2fms (L1=%d, L2=%d, L3=%d)",
             record.total_invalidated,
             tickers,
             source,
@@ -173,8 +172,7 @@ class CacheInvalidator:
         self._record(record)
 
         logger.info(
-            "CacheInvalidator on_data_update — event=%s source=%s "
-            "tickers=%s invalidated=%d entries in %.2fms",
+            "CacheInvalidator on_data_update — event=%s source=%s " "tickers=%s invalidated=%d entries in %.2fms",
             event.event_id,
             event.source,
             tickers,
@@ -212,4 +210,4 @@ class CacheInvalidator:
         self._history.append(record)
         # Trim to max history size
         if len(self._history) > self._MAX_HISTORY:
-            self._history = self._history[-self._MAX_HISTORY:]
+            self._history = self._history[-self._MAX_HISTORY :]

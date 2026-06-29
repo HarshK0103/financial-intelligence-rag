@@ -10,10 +10,10 @@ from unittest.mock import AsyncMock, MagicMock, patch
 from app.cache.exact_cache import ExactCache
 from app.models import QueryResponse
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def _make_config():
     cfg = MagicMock()

@@ -44,7 +44,5 @@ class EmbeddingService:
         async with self._model_lock:
             if self._model is None:
                 loop = asyncio.get_running_loop()
-                self._model = await loop.run_in_executor(
-                    None, SentenceTransformer, self._model_name
-                )
+                self._model = await loop.run_in_executor(None, SentenceTransformer, self._model_name)
         return self._model

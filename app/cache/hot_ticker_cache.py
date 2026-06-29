@@ -107,9 +107,7 @@ class HotTickerCache:
         if self._refresh_task is not None:
             logger.warning("HotTickerCache refresh loop already running")
             return
-        self._refresh_task = asyncio.create_task(
-            self._refresh_loop(), name="hot-ticker-refresh"
-        )
+        self._refresh_task = asyncio.create_task(self._refresh_loop(), name="hot-ticker-refresh")
         logger.info("HotTickerCache background refresh started")
 
     async def stop(self) -> None:
@@ -142,9 +140,7 @@ class HotTickerCache:
         # — multi-ticker queries need the full pipeline.
         if len(detected) != 1:
             self.misses += 1
-            logger.debug(
-                "HotTickerCache SKIP — multiple tickers detected: %s", detected
-            )
+            logger.debug("HotTickerCache SKIP — multiple tickers detected: %s", detected)
             return None
 
         ticker = detected[0]
@@ -160,9 +156,7 @@ class HotTickerCache:
             if age > self._refresh_interval * 3:
                 # Entry too stale — treat as miss
                 self.misses += 1
-                logger.debug(
-                    "HotTickerCache STALE — ticker=%s age=%.1fs", ticker, age
-                )
+                logger.debug("HotTickerCache STALE — ticker=%s age=%.1fs", ticker, age)
                 return None
 
             self.hits += 1

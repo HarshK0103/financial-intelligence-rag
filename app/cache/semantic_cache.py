@@ -282,6 +282,4 @@ class SemanticCache:
             self._embedding_norms = None
             return
         self._embedding_matrix = np.vstack(self._embeddings)
-        self._embedding_norms = (
-            np.linalg.norm(self._embedding_matrix, axis=1) + self._EPSILON
-        )
+        self._embedding_norms = np.linalg.norm(self._embedding_matrix, axis=1) + self._EPSILON

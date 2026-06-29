@@ -132,9 +132,7 @@ class HotStore:
     def _evict_expired_unlocked(self) -> int:
         """Remove all expired documents.  Returns count evicted."""
         now = time.time()
-        expired_ids = [
-            did for did, exp in self._expiry.items() if exp <= now
-        ]
+        expired_ids = [did for did, exp in self._expiry.items() if exp <= now]
         for did in expired_ids:
             self._remove_unlocked(did)
         if expired_ids:

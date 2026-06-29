@@ -89,8 +89,7 @@ def test_score_monotonically_decreases(scorer: FreshnessScorer) -> None:
     scores = [scorer.score(_make_doc(a), now) for a in ages]
     for i in range(len(scores) - 1):
         assert scores[i] >= scores[i + 1], (
-            f"Score at age {ages[i]} ({scores[i]}) should be >= "
-            f"score at age {ages[i+1]} ({scores[i+1]})"
+            f"Score at age {ages[i]} ({scores[i]}) should be >= " f"score at age {ages[i+1]} ({scores[i+1]})"
         )
 
 

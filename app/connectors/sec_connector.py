@@ -89,8 +89,7 @@ class SECConnector(BaseConnector):
                     continue
                 accession_no_dash = str(accession).replace("-", "")
                 filing_url = (
-                    f"https://www.sec.gov/Archives/edgar/data/"
-                    f"{int(padded_cik)}/{accession_no_dash}/{primary_doc}"
+                    f"https://www.sec.gov/Archives/edgar/data/" f"{int(padded_cik)}/{accession_no_dash}/{primary_doc}"
                 )
                 description_text = str(description or "").strip()
 
@@ -164,26 +163,25 @@ class SECConnector(BaseConnector):
 
             documents: list[Document] = []
             for chunk in chunks:
-                doc_id = (
-                    f"sec_{ticker}_{accession_no_dash}"
-                    f"_{chunk['section']}_c{chunk['chunk_index']}"
+                doc_id = f"sec_{ticker}_{accession_no_dash}" f"_{chunk['section']}_c{chunk['chunk_index']}"
+                documents.append(
+                    Document(
+                        doc_id=doc_id,
+                        content=chunk["content"],
+                        source="sec_edgar_body",
+                        ticker=ticker,
+                        timestamp=timestamp,
+                        temperature=DataTemperature.COLD,
+                        metadata={
+                            "provider": "sec",
+                            "form": form_type,
+                            "filing_date": filing_date,
+                            "section": chunk["section"],
+                            "chunk_index": chunk["chunk_index"],
+                            "filing_url": filing_url,
+                        },
+                    )
                 )
-                documents.append(Document(
-                    doc_id=doc_id,
-                    content=chunk["content"],
-                    source="sec_edgar_body",
-                    ticker=ticker,
-                    timestamp=timestamp,
-                    temperature=DataTemperature.COLD,
-                    metadata={
-                        "provider": "sec",
-                        "form": form_type,
-                        "filing_date": filing_date,
-                        "section": chunk["section"],
-                        "chunk_index": chunk["chunk_index"],
-                        "filing_url": filing_url,
-                    },
-                ))
 
             logger.info(
                 "SECConnector: parsed %s %s body into %d chunks",
@@ -195,8 +193,7 @@ class SECConnector(BaseConnector):
 
         except Exception as exc:
             logger.warning(
-                "SECConnector: failed to fetch/parse body for %s %s: %s "
-                "(falling back to metadata-only)",
+                "SECConnector: failed to fetch/parse body for %s %s: %s " "(falling back to metadata-only)",
                 ticker,
                 form_type,
                 exc,

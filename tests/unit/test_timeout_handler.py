@@ -20,9 +20,7 @@ async def test_fast_coro_returns_result(handler: TimeoutHandler) -> None:
     async def fast() -> str:
         return "done"
 
-    result = await handler.execute_with_timeout(
-        fast(), timeout_ms=1000, stage_name="test"
-    )
+    result = await handler.execute_with_timeout(fast(), timeout_ms=1000, stage_name="test")
     assert result == "done"
 
 
@@ -59,9 +57,7 @@ async def test_timeout_increments_counter(handler: TimeoutHandler) -> None:
     async def slow() -> None:
         await asyncio.sleep(5)
 
-    await handler.execute_with_timeout(
-        slow(), timeout_ms=10, stage_name="test", fallback_value=None
-    )
+    await handler.execute_with_timeout(slow(), timeout_ms=10, stage_name="test", fallback_value=None)
     assert handler._total_timeouts == 1
 
 
@@ -74,9 +70,7 @@ async def test_default_fallback_is_none(handler: TimeoutHandler) -> None:
         await asyncio.sleep(5)
         return "never"
 
-    result = await handler.execute_with_timeout(
-        slow(), timeout_ms=10, stage_name="test"
-    )
+    result = await handler.execute_with_timeout(slow(), timeout_ms=10, stage_name="test")
     assert result is None
 
 
@@ -86,9 +80,7 @@ async def test_custom_fallback_value(handler: TimeoutHandler) -> None:
         await asyncio.sleep(5)
         return [1, 2, 3]
 
-    result = await handler.execute_with_timeout(
-        slow(), timeout_ms=10, stage_name="test", fallback_value=[]
-    )
+    result = await handler.execute_with_timeout(slow(), timeout_ms=10, stage_name="test", fallback_value=[])
     assert result == []
 
 
@@ -101,9 +93,7 @@ async def test_exception_propagates(handler: TimeoutHandler) -> None:
         raise ValueError("bad input")
 
     with pytest.raises(ValueError, match="bad input"):
-        await handler.execute_with_timeout(
-            failing(), timeout_ms=1000, stage_name="test"
-        )
+        await handler.execute_with_timeout(failing(), timeout_ms=1000, stage_name="test")
 
 
 # ── Multiplier ────────────────────────────────────────────────────
@@ -118,7 +108,5 @@ async def test_multiplier_extends_deadline() -> None:
         return "ok"
 
     # Budget is 10ms but multiplier is 10× → effective is 100ms
-    result = await handler.execute_with_timeout(
-        moderate(), timeout_ms=10, stage_name="test"
-    )
+    result = await handler.execute_with_timeout(moderate(), timeout_ms=10, stage_name="test")
     assert result == "ok"

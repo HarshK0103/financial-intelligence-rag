@@ -110,11 +110,7 @@ class OllamaInferenceEngine:
             response = await self._client.post("/api/chat", json=payload)
             response.raise_for_status()
             data = response.json()
-            content = (
-                data.get("message", {}).get("content", "")
-                if isinstance(data, dict)
-                else ""
-            )
+            content = data.get("message", {}).get("content", "") if isinstance(data, dict) else ""
             if content and content.strip():
                 return content.strip()
             logger.warning("Ollama returned empty content, using fallback engine")

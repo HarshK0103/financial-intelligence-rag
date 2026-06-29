@@ -193,9 +193,7 @@ async def test_body_download_failure_falls_back(mock_config):
     connector = SECConnector(client=mock_client)
     connector._www_client = AsyncMock(spec=httpx.AsyncClient)
     connector._www_client.get = AsyncMock(
-        side_effect=httpx.HTTPStatusError(
-            "Not Found", request=MagicMock(), response=MagicMock()
-        )
+        side_effect=httpx.HTTPStatusError("Not Found", request=MagicMock(), response=MagicMock())
     )
 
     result = await connector.fetch_documents()

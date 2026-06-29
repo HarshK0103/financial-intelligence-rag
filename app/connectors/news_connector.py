@@ -71,22 +71,24 @@ class NewsConnector(BaseConnector):
                 content = " ".join(part for part in [headline, summary, url] if part).strip()
                 if not content:
                     continue
-                documents.append(Document(
-                    doc_id=f"finnhub_news_{identifier}",
-                    content=content,
-                    source="finnhub_news",
-                    ticker=symbol,
-                    timestamp=timestamp,
-                    temperature=DataTemperature.HOT,
-                    metadata={
-                        "provider": "finnhub",
-                        "external_id": identifier,
-                        "headline": headline,
-                        "summary": summary,
-                        "news_source": source,
-                        "url": url,
-                    },
-                ))
+                documents.append(
+                    Document(
+                        doc_id=f"finnhub_news_{identifier}",
+                        content=content,
+                        source="finnhub_news",
+                        ticker=symbol,
+                        timestamp=timestamp,
+                        temperature=DataTemperature.HOT,
+                        metadata={
+                            "provider": "finnhub",
+                            "external_id": identifier,
+                            "headline": headline,
+                            "summary": summary,
+                            "news_source": source,
+                            "url": url,
+                        },
+                    )
+                )
 
         logger.info("NewsConnector fetched %d documents", len(documents))
         return ConnectorFetchResult(
@@ -101,9 +103,5 @@ class NewsConnector(BaseConnector):
 
 def _build_date_window(since_ts: float | None) -> tuple[str, str]:
     now = datetime.now(tz=UTC)
-    start = (
-        datetime.fromtimestamp(since_ts, tz=UTC)
-        if since_ts is not None
-        else now - timedelta(days=2)
-    )
+    start = datetime.fromtimestamp(since_ts, tz=UTC) if since_ts is not None else now - timedelta(days=2)
     return start.strftime("%Y-%m-%d"), now.strftime("%Y-%m-%d")

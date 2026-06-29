@@ -109,14 +109,17 @@ class RetrievalEngine:
             elapsed_ms = (time.perf_counter() - t0) * 1_000
             logger.warning(
                 "RetrievalEngine: timeout after %.1fms (budget=%.0fms)",
-                elapsed_ms, self._retrieval_timeout_s * 1_000,
+                elapsed_ms,
+                self._retrieval_timeout_s * 1_000,
             )
             raise
 
         elapsed_ms = (time.perf_counter() - t0) * 1_000
         logger.info(
             "RetrievalEngine: query=%r results=%d elapsed=%.2fms",
-            query[:80], len(results), elapsed_ms,
+            query[:80],
+            len(results),
+            elapsed_ms,
         )
         return results
 
@@ -142,14 +145,17 @@ class RetrievalEngine:
             elapsed_ms = (time.perf_counter() - t0) * 1_000
             logger.warning(
                 "RetrievalEngine: timeout after %.1fms (budget=%.0fms)",
-                elapsed_ms, self._retrieval_timeout_s * 1_000,
+                elapsed_ms,
+                self._retrieval_timeout_s * 1_000,
             )
             raise
 
         elapsed_ms = (time.perf_counter() - t0) * 1_000
         logger.info(
             "RetrievalEngine: query=%r results=%d elapsed=%.2fms",
-            query[:80], len(results), elapsed_ms,
+            query[:80],
+            len(results),
+            elapsed_ms,
         )
         return results, timings
 
@@ -196,7 +202,8 @@ class RetrievalEngine:
         # 2. Reciprocal Rank Fusion.
         fusion_start = time.perf_counter()
         fused = self._reciprocal_rank_fusion(
-            bm25_results, vector_results,
+            bm25_results,
+            vector_results,
         )
         if timings is not None:
             timings.fusion_ms = round((time.perf_counter() - fusion_start) * 1_000, 2)
@@ -249,16 +256,22 @@ class RetrievalEngine:
                 doc_records[did] = sdoc
             else:
                 # Merge scores from both retrievers onto the same record.
-                doc_records[did] = existing.model_copy(update={
-                    "vector_score": sdoc.vector_score,
-                })
+                doc_records[did] = existing.model_copy(
+                    update={
+                        "vector_score": sdoc.vector_score,
+                    }
+                )
 
         # Build the fused list sorted by RRF score.
         fused: list[ScoredDocument] = []
         for did in sorted(doc_scores, key=doc_scores.__getitem__, reverse=True):
             record = doc_records[did]
-            fused.append(record.model_copy(update={
-                "final_score": round(doc_scores[did], 6),
-            }))
+            fused.append(
+                record.model_copy(
+                    update={
+                        "final_score": round(doc_scores[did], 6),
+                    }
+                )
+            )
 
         return fused

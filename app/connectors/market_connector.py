@@ -65,22 +65,24 @@ class MarketConnector(BaseConnector):
                 f"{symbol} last traded at {price}. Change {change} ({change_pct}). "
                 f"Volume {volume}. Latest trading day {last_trading_day}."
             )
-            documents.append(Document(
-                doc_id=f"alpha_quote_{symbol}_{int(now_ts // max(self.poll_interval_seconds, 1))}",
-                content=content,
-                source="alpha_vantage_market",
-                ticker=symbol,
-                timestamp=now_ts,
-                temperature=DataTemperature.HOT,
-                metadata={
-                    "provider": "alpha_vantage",
-                    "price": price,
-                    "change": change,
-                    "change_percent": change_pct,
-                    "volume": volume,
-                    "latest_trading_day": last_trading_day,
-                },
-            ))
+            documents.append(
+                Document(
+                    doc_id=f"alpha_quote_{symbol}_{int(now_ts // max(self.poll_interval_seconds, 1))}",
+                    content=content,
+                    source="alpha_vantage_market",
+                    ticker=symbol,
+                    timestamp=now_ts,
+                    temperature=DataTemperature.HOT,
+                    metadata={
+                        "provider": "alpha_vantage",
+                        "price": price,
+                        "change": change,
+                        "change_percent": change_pct,
+                        "volume": volume,
+                        "latest_trading_day": last_trading_day,
+                    },
+                )
+            )
 
         logger.info("MarketConnector fetched %d documents", len(documents))
         return ConnectorFetchResult(

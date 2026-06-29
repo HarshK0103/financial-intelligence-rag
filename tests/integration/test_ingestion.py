@@ -35,7 +35,4 @@ def test_ingestion_updates_store_and_retrieval(client) -> None:
 
     assert client.get("/api/health").json()["hot_store_docs"] > before
     assert query.status_code == 200
-    assert any(
-        source["document"]["doc_id"] == "news_amd_integration"
-        for source in query.json()["sources"]
-    )
+    assert any(source["document"]["doc_id"] == "news_amd_integration" for source in query.json()["sources"])
