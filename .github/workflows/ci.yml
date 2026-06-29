@@ -45,7 +45,10 @@ jobs:
         continue-on-error: true
 
       - name: Run tests
-        run: pytest tests/ -v --tb=short
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          pytest tests/ -v --tb=short
 
       - name: Compile check
         run: python -m compileall app/
