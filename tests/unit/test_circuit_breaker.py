@@ -1,8 +1,6 @@
 """Tests for the circuit breaker pattern."""
 
 import asyncio
-import time
-from unittest.mock import patch
 
 import pytest
 

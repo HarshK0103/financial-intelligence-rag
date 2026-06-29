@@ -112,7 +112,7 @@ class TimeoutHandler:
 
             return result
 
-        except asyncio.TimeoutError:
+        except TimeoutError:
             elapsed_ms = (time.perf_counter() - t0) * 1000
             self._total_timeouts += 1
             logger.error(

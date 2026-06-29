@@ -10,9 +10,9 @@ from app.connectors.sync_service import ConnectorSyncService
 __all__ = [
     "BaseConnector",
     "ConnectorFetchResult",
+    "ConnectorSyncService",
     "MarketConnector",
     "NewsConnector",
     "SECConnector",
-    "ConnectorSyncService",
     "build_connectors",
 ]

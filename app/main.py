@@ -279,7 +279,7 @@ async def _load_sample_data(
             logger.warning("Sample data file not found: %s", filepath)
             continue
         try:
-            with open(filepath, "r", encoding="utf-8") as handle:
+            with open(filepath, encoding="utf-8") as handle:
                 raw_docs = json.load(handle)
             docs = [Document(**raw) for raw in raw_docs]
             embedded_docs = await embedding_worker.embed_documents(docs)

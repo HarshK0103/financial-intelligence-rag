@@ -18,7 +18,7 @@ import numpy as np
 from numpy.typing import NDArray
 
 from app.config import get_config
-from app.models import CacheEntry, CacheLayer, QueryResponse
+from app.models import CacheEntry, QueryResponse
 
 logger = logging.getLogger(__name__)
 

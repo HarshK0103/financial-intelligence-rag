@@ -20,7 +20,6 @@ from __future__ import annotations
 
 import logging
 import re
-import textwrap
 from typing import Final
 
 from app.config import get_config

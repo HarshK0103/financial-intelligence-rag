@@ -19,7 +19,6 @@ Strategy
 from __future__ import annotations
 
 import logging
-import time
 from typing import Any
 
 from app.config import get_config

@@ -12,8 +12,8 @@ from __future__ import annotations
 import asyncio
 import logging
 import time
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Sequence
 
 from app.config import get_config
 from app.models import ScoredDocument
@@ -105,7 +105,7 @@ class RetrievalEngine:
                 self._pipeline(query, embedding, top_k),
                 timeout=self._retrieval_timeout_s,
             )
-        except asyncio.TimeoutError:
+        except TimeoutError:
             elapsed_ms = (time.perf_counter() - t0) * 1_000
             logger.warning(
                 "RetrievalEngine: timeout after %.1fms (budget=%.0fms)",
@@ -141,7 +141,7 @@ class RetrievalEngine:
                 self._pipeline(query, embedding, top_k, timings),
                 timeout=self._retrieval_timeout_s,
             )
-        except asyncio.TimeoutError:
+        except TimeoutError:
             elapsed_ms = (time.perf_counter() - t0) * 1_000
             logger.warning(
                 "RetrievalEngine: timeout after %.1fms (budget=%.0fms)",

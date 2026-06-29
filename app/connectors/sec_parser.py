@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import logging
 import re
-import textwrap
 from html.parser import HTMLParser
 from typing import Final
 

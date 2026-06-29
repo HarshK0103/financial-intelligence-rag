@@ -10,7 +10,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import time
-from typing import Sequence
+from collections.abc import Sequence
 
 import faiss
 import numpy as np

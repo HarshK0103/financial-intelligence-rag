@@ -18,7 +18,7 @@ import logging
 import math
 import re
 import time
-from typing import Sequence
+from collections.abc import Sequence
 
 from app.config import get_config
 from app.models import ScoredDocument

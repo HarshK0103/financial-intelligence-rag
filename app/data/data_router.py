@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import logging
 import re
-from typing import Sequence
+from collections.abc import Sequence
 
 from app.config import get_config
 from app.data.cold_store import ColdStore

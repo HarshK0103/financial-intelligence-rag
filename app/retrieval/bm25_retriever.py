@@ -13,7 +13,7 @@ import heapq
 import logging
 import re
 import time
-from typing import Sequence
+from collections.abc import Sequence
 
 from rank_bm25 import BM25Okapi
 

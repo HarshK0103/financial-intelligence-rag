@@ -17,7 +17,7 @@ from collections import OrderedDict
 from typing import Final
 
 from app.config import get_config
-from app.models import CacheEntry, CacheLayer, QueryResponse
+from app.models import CacheEntry, QueryResponse
 
 logger = logging.getLogger(__name__)
 

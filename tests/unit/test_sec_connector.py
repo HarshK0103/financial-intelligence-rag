@@ -8,7 +8,6 @@ import httpx
 import pytest
 
 from app.connectors.base import ConnectorFetchResult
-from app.models import Document
 
 # Sample SEC EDGAR API response
 SAMPLE_SEC_RESPONSE = {

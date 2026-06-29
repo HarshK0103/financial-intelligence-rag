@@ -24,7 +24,6 @@ import asyncio
 import logging
 import time
 from collections.abc import Awaitable, Callable
-from typing import Any
 
 from app.config import get_config
 from app.ingestion.embedding_worker import EmbeddingWorker
@@ -219,7 +218,7 @@ class StreamProcessor:
                         break
                     batch_events.append(next_event)
 
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 # No events arrived within the interval — loop back.
                 continue
 

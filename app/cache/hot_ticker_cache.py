@@ -12,14 +12,14 @@ import asyncio
 import logging
 import re
 import time
+from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
-from typing import Awaitable, Callable
 
 import numpy as np
 from numpy.typing import NDArray
 
 from app.config import get_config
-from app.models import CacheLayer, QueryResponse, ScoredDocument
+from app.models import QueryResponse, ScoredDocument
 
 logger = logging.getLogger(__name__)
 

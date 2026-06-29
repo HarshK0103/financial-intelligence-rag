@@ -2,7 +2,6 @@
 
 import pytest
 
-from app.models import CacheLayer
 from app.resilience.degraded_mode import DegradedMode
 
 

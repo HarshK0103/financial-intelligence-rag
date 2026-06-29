@@ -1,6 +1,5 @@
 """Tests for the freshness scoring module."""
 
-import math
 import time
 
 import pytest

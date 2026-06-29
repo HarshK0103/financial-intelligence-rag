@@ -1,7 +1,5 @@
 """Tests for the SEC filing HTML parser and chunker."""
 
-import pytest
-
 from app.connectors.sec_parser import (
     chunk_text,
     extract_sections,

@@ -6,7 +6,7 @@ import asyncio
 
 import pytest
 
-from app.models import CacheLayer, CircuitState, QueryResponse
+from app.models import CircuitState, QueryResponse
 from app.resilience.circuit_breaker import CircuitBreaker
 from app.resilience.degraded_mode import DegradedMode
 from app.resilience.timeout_handler import TimeoutHandler

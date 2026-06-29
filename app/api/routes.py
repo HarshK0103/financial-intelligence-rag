@@ -22,8 +22,6 @@ from app.models import (
     QueryRequest,
     QueryResponse,
     ResponseMetrics,
-    ScoredDocument,
-    SystemHealth,
 )
 from app.observability.metrics import observe_query_response
 
