@@ -10,9 +10,9 @@ retrieval timeout from ``LatencyBudget.retrieval_ms``.
 from __future__ import annotations
 
 import asyncio
-from dataclasses import dataclass
 import logging
 import time
+from dataclasses import dataclass
 from typing import Sequence
 
 from app.config import get_config

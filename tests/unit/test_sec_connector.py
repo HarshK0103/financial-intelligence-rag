@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import httpx
+import pytest
 
 from app.connectors.base import ConnectorFetchResult
 from app.models import Document
@@ -87,8 +87,9 @@ async def test_since_ts_filters_old_filings(mock_config):
     mock_client = AsyncMock(spec=httpx.AsyncClient)
     mock_client.get = AsyncMock(return_value=_mock_sec_response())
 
+    from datetime import UTC, datetime
+
     from app.connectors.sec_connector import SECConnector
-    from datetime import datetime, UTC
 
     # Set since_ts to after the oldest filing but before the newest
     since_ts = datetime(2024, 10, 1, tzinfo=UTC).timestamp()

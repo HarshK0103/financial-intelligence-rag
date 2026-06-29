@@ -20,7 +20,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from app.api.routes import router as api_router, set_pipeline
+from app.api.routes import router as api_router
+from app.api.routes import set_pipeline
 from app.cache.cache_manager import CacheManager
 from app.cache.exact_cache import ExactCache
 from app.cache.hot_ticker_cache import HotTickerCache, HotTickerEntry

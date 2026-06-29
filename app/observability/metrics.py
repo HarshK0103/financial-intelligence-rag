@@ -4,8 +4,7 @@ from __future__ import annotations
 
 import logging
 
-from app.models import CacheLayer
-from app.models import QueryResponse
+from app.models import CacheLayer, QueryResponse
 
 logger = logging.getLogger(__name__)
 

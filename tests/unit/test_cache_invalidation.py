@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
-import pytest
 from unittest.mock import MagicMock, patch
+
+import pytest
 
 from app.cache.cache_manager import CacheManager
 from app.cache.exact_cache import ExactCache

@@ -12,9 +12,9 @@ import re
 from typing import Sequence
 
 from app.config import get_config
-from app.models import DataTemperature, Document, QueryRequest
 from app.data.cold_store import ColdStore
 from app.data.hot_store import HotStore
+from app.models import DataTemperature, Document, QueryRequest
 
 logger = logging.getLogger(__name__)
 
