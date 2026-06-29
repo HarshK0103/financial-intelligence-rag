@@ -718,41 +718,6 @@ pytest tests/unit/test_semantic_cache.py -v
 
 ---
 
-## GitHub Showcase
-
-### 📁 Documentation
-
-| Asset | Path | Description |
-|-------|------|-------------|
-| Architecture Diagram | `docs/architecture_diagram.mmd` | Mermaid source for the full system diagram |
-| Architecture Deep-Dive | `docs/architecture.md` | Detailed architectural decisions and trade-offs |
-| Benchmark Report | `docs/benchmark_report.md` | Latency profiling and optimization results |
-| API Documentation | `docs/api_documentation.md` | Complete endpoint reference |
-| Deployment Guide | `docs/deployment_guide.md` | Production deployment instructions |
-| Resume Summary | `docs/resume_ready_summary.md` | Recruiter-ready project description |
-| Latency Breakdown | `latency_breakdown.md` | Root cause analysis of P99 optimization |
-
-### 📸 Screenshots & Demo
-
-> Add your own screenshots to `docs/screenshots/` and update the paths below.
-
-| View | Screenshot |
-|------|------------|
-| **Architecture Diagram** | ![Architecture](docs/screenshots/architecture_overview.png) |
-| **Live Dashboard** | ![Dashboard](docs/screenshots/dashboard_overview.png) |
-| **Swagger API Docs** | ![Swagger](docs/screenshots/swagger_docs.png) |
-| **Grafana Latency** | ![Grafana](docs/screenshots/grafana_latency.png) |
-| **Grafana Cache** | ![Grafana Cache](docs/screenshots/grafana_cache.png) |
-| **Query Response** | ![Query](docs/screenshots/query_response.png) |
-
-#### 🎬 Demo GIF
-
-> Record a walkthrough with [Peek](https://github.com/phw/peek) or [LICEcap](https://www.cockos.com/licecap/) and save to `docs/screenshots/demo.gif`.
-
-![Demo](docs/screenshots/demo.gif)
-
----
-
 ## Sample Queries
 
 ```bash
